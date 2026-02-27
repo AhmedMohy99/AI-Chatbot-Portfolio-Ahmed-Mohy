@@ -1,0 +1,31 @@
+# Ahmed Mohy – AI Services FAQ (EN)
+
+## Identity
+Ahmed Mohy is an Artificial Intelligence graduate from The British University in Egypt.
+He specializes in Machine Learning, Deep Learning, and CNN-based image classification.
+
+## Services
+1) AI Chatbot for websites (customer support / FAQs / smart responses)
+2) Data analysis dashboards (CSV/Excel → insights, charts, KPIs)
+3) Machine Learning models (classification / regression)
+4) CNN projects (image classification + evaluation)
+
+## Contact
+Email: Ahmed171684@gmail.com
+WhatsApp: 01016286261
+WhatsApp Link: https://wa.me/201016286261
+Instagram: https://www.instagram.com/ahmed.abdrabboo/
+GitHub: https://github.com/AhmedMohy99
+LinkedIn: https://www.linkedin.com/in/ahmed-mohy-83b447220/
+
+## Pricing (starter)
+- Basic chatbot: from $50
+- Data dashboard: from $40
+- Small ML task: from $30
+
+## How to start
+Ask the client:
+- What is the goal?
+- What data do you have? (files, links)
+- What platform? (website, WhatsApp, etc.)
+- Deadline?
