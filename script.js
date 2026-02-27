@@ -9,24 +9,28 @@ const UI = {
     send: "Send",
     welcome: "Hi! I’m Ahmed Mohy’s AI assistant. Ask me about services, pricing, or contact.",
     you: "You",
-    bot: "Bot"
+    bot: "Bot",
+    tips: "Try: “What services do you offer?” • “How much does a chatbot cost?” • “How can I contact you?”"
   },
   ar: {
     placeholder: "اكتب رسالة… (مثال: ما هي الخدمات التي تقدمها؟)",
     send: "إرسال",
     welcome: "مرحباً! أنا مساعد أحمد محي. اسألني عن الخدمات والأسعار وطرق التواصل.",
     you: "أنت",
-    bot: "المساعد"
+    bot: "المساعد",
+    tips: "جرّب: “ما هي الخدمات التي تقدمها؟” • “كم تكلفة الشات بوت؟” • “كيف أتواصل معك؟”"
   }
 };
 
 function getLang(){ return localStorage.getItem("lang") || "en"; }
+
 function setLang(lang){
   localStorage.setItem("lang", lang);
   document.body.classList.toggle("rtl", lang === "ar");
   langBtn.textContent = (lang === "ar") ? "EN" : "AR";
   msg.placeholder = UI[lang].placeholder;
   send.textContent = UI[lang].send;
+  document.getElementById("tips").textContent = UI[lang].tips;
 }
 
 function addMessage(role, text){
@@ -53,15 +57,18 @@ async function sendMessage(){
 
   try{
     const lang = getLang();
+
+    // ✅ Correct endpoint (NOT /api/chat.py)
     const res = await fetch("/api/chat", {
       method: "POST",
       headers: {"Content-Type":"application/json"},
       body: JSON.stringify({ message: text, lang })
     });
+
     const data = await res.json();
     addMessage("bot", data.reply || "No reply.");
   }catch(e){
-    addMessage("bot", "Network error. Check deployment logs.");
+    addMessage("bot", "Network error. Check Vercel logs.");
   }finally{
     send.disabled = false;
     msg.focus();
