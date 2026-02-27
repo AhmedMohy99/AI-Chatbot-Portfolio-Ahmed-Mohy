@@ -23,7 +23,6 @@ const UI = {
 };
 
 function getLang(){ return localStorage.getItem("lang") || "en"; }
-
 function setLang(lang){
   localStorage.setItem("lang", lang);
   document.body.classList.toggle("rtl", lang === "ar");
@@ -32,6 +31,12 @@ function setLang(lang){
   send.textContent = UI[lang].send;
   document.getElementById("tips").textContent = UI[lang].tips;
 }
+
+function getHistory(){
+  try { return JSON.parse(localStorage.getItem("history") || "[]"); }
+  catch { return []; }
+}
+function setHistory(h){ localStorage.setItem("history", JSON.stringify(h)); }
 
 function addMessage(role, text){
   const lang = getLang();
@@ -51,22 +56,35 @@ async function sendMessage(){
   const text = msg.value.trim();
   if(!text) return;
 
+  // Prevent people from typing API keys here
+  if(text.toLowerCase().startsWith("sk-") || text.toUpperCase().startsWith("SK-")){
+    addMessage("bot", "Don’t paste API keys in chat. Add it in Vercel → Settings → Environment Variables as OPENAI_API_KEY.");
+    msg.value = "";
+    return;
+  }
+
   addMessage("user", text);
   msg.value = "";
   send.disabled = true;
 
+  const history = getHistory();
+  history.push({ role: "user", content: text });
+
   try{
     const lang = getLang();
-
-    // ✅ Correct endpoint (NOT /api/chat.py)
     const res = await fetch("/api/chat", {
       method: "POST",
       headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({ message: text, lang })
+      body: JSON.stringify({ message: text, lang, history })
     });
 
     const data = await res.json();
-    addMessage("bot", data.reply || "No reply.");
+    const reply = data.reply || "No reply.";
+    addMessage("bot", reply);
+
+    history.push({ role: "assistant", content: reply });
+    setHistory(history.slice(-20)); // keep last 20 messages
+
   }catch(e){
     addMessage("bot", "Network error. Check Vercel logs.");
   }finally{
@@ -83,5 +101,6 @@ langBtn.addEventListener("click", ()=>{
   setLang(current === "en" ? "ar" : "en");
 });
 
+// init
 setLang(getLang());
 addMessage("bot", UI[getLang()].welcome);
