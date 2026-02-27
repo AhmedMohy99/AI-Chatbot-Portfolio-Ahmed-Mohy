@@ -1,0 +1,50 @@
+:root{
+  --bg:#0b1020; --card:#121a33; --text:#e9ecff; --muted:#b7c0ff;
+  --accent:#ff2d2d; --border: rgba(255,255,255,.12);
+}
+*{box-sizing:border-box}
+body{
+  margin:0; font-family:Arial, sans-serif; color:var(--text);
+  background:
+    radial-gradient(900px 500px at 15% 10%, rgba(255,45,45,.20), transparent 60%),
+    radial-gradient(900px 500px at 85% 20%, rgba(255,255,255,.10), transparent 60%),
+    var(--bg);
+}
+.container{max-width:850px; margin:auto; padding:22px}
+.top{display:flex; justify-content:space-between; gap:12px; align-items:center; flex-wrap:wrap}
+h1{margin:0; font-size:20px}
+p{margin:6px 0 0; color:var(--muted)}
+.actions{display:flex; gap:10px; align-items:center}
+.pill{
+  padding:10px 12px; border-radius:999px; border:1px solid var(--border);
+  background: rgba(255,255,255,.05); color:var(--text); text-decoration:none; cursor:pointer;
+}
+.links{display:flex; gap:10px; flex-wrap:wrap; margin:12px 0}
+.card{
+  background: rgba(18,26,51,.75);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:14px;
+}
+.chat{
+  height:420px; overflow:auto; padding:10px;
+  border-radius:14px; background: rgba(255,255,255,.03);
+  border:1px solid var(--border);
+}
+.msg{max-width:80%; padding:10px 12px; border-radius:14px; margin:10px 0; border:1px solid var(--border)}
+.user{margin-left:auto; background: rgba(255,45,45,.13); border-color: rgba(255,45,45,.35)}
+.bot{margin-right:auto; background: rgba(255,255,255,.05)}
+.meta{font-size:12px; color:var(--muted); margin-bottom:6px}
+.composer{display:flex; gap:10px; margin-top:12px}
+input{
+  flex:1; padding:12px; border-radius:14px; border:1px solid var(--border);
+  background: rgba(255,255,255,.04); color:var(--text); outline:none;
+}
+button{
+  padding:12px 14px; border-radius:14px; border:1px solid rgba(255,45,45,.45);
+  background: linear-gradient(135deg, rgba(255,45,45,.95), rgba(255,255,255,.12));
+  color:var(--text); cursor:pointer;
+}
+.tips{margin-top:10px; color:var(--muted); font-size:13px}
+.footer{margin-top:12px; text-align:center; color:var(--muted); font-size:13px}
+.rtl{direction:rtl}
