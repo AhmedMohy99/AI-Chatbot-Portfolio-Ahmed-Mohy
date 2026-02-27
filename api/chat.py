@@ -1,5 +1,6 @@
 import os
 import json
+from http.server import BaseHTTPRequestHandler
 from openai import OpenAI
 
 OWNER_NAME = "Ahmed Mohy"
@@ -11,76 +12,105 @@ GITHUB = "https://github.com/AhmedMohy99"
 
 BUSINESS_CONTEXT_EN = f"""
 You are a helpful assistant for {OWNER_NAME}'s AI services portfolio.
-Be polite and professional.
+Be polite, clear, and professional.
 
 About:
-- AI Graduate – British University in Egypt
-- AI Engineer | ML | DL | CNN
+- Artificial Intelligence Graduate – The British University in Egypt
+- AI Engineer | Machine Learning | Deep Learning | CNN
 
 Services:
-- AI Chatbots
-- Data Dashboards
-- ML Models
-- Image Classification
+- AI Chatbots for websites
+- Data analysis dashboards (CSV/Excel → insights)
+- Machine Learning models (classification/regression)
+- Image classification (CNN)
 
 Contact:
-Email: {EMAIL}
-WhatsApp: {WHATSAPP_DISPLAY}
-Instagram: {INSTAGRAM}
-GitHub: {GITHUB}
+- Email: {EMAIL}
+- WhatsApp: {WHATSAPP_DISPLAY} (Link: {WHATSAPP_LINK})
+- Instagram: {INSTAGRAM}
+- GitHub: {GITHUB}
 
-Starter Pricing:
-Chatbot from $50
-Dashboard from $40
-ML task from $30
+Starter pricing (early freelance stage):
+- Chatbot: from $50
+- Dashboard: from $40
+- Small ML task: from $30
+When asked about price, say it depends on scope and ask 1–2 short questions.
 """
 
 BUSINESS_CONTEXT_AR = f"""
-أنت مساعد ذكي لموقع {OWNER_NAME}.
-كن مهذباً وواضحاً.
+أنت مساعد ذكي لموقع أحمد محي (بورتفوليو).
+كن مهذباً وواضحاً ومختصراً.
+
+نبذة:
+- خريج ذكاء اصطناعي – الجامعة البريطانية في مصر
+- مهندس ذكاء اصطناعي | تعلم الآلة | تعلم عميق | متخصص CNN
 
 الخدمات:
-- شات بوت
-- تحليل بيانات
-- نماذج تعلم آلة
-- تصنيف صور CNN
+- شات بوت للمواقع
+- تحليل بيانات ولوحات معلومات (CSV/Excel)
+- نماذج تعلم آلة (تصنيف/تنبؤ)
+- تصنيف صور باستخدام CNN
 
 التواصل:
-البريد: {EMAIL}
-واتساب: {WHATSAPP_DISPLAY}
-إنستجرام: {INSTAGRAM}
-GitHub: {GITHUB}
+- البريد: {EMAIL}
+- واتساب: {WHATSAPP_DISPLAY} (الرابط: {WHATSAPP_LINK})
+- إنستجرام: {INSTAGRAM}
+- GitHub: {GITHUB}
+
+أسعار مبدئية:
+- شات بوت: يبدأ من 50$
+- داشبورد: يبدأ من 40$
+- مهمة ML صغيرة: تبدأ من 30$
+وعند سؤال السعر قل أنه يعتمد على التفاصيل واسأل سؤال/سؤالين للتوضيح.
 """
 
-def handler(request):
-    try:
-        body = json.loads(request.get_body())
-        message = body.get("message", "")
-        lang = body.get("lang", "en")
+class handler(BaseHTTPRequestHandler):
+    def _send_json(self, status_code: int, payload: dict):
+        body = json.dumps(payload).encode("utf-8")
+        self.send_response(status_code)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
 
-        client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+    def do_OPTIONS(self):
+        # Optional: helps with CORS in some cases
+        self.send_response(204)
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.end_headers()
 
-        context = BUSINESS_CONTEXT_AR if lang == "ar" else BUSINESS_CONTEXT_EN
+    def do_POST(self):
+        try:
+            length = int(self.headers.get("Content-Length", "0"))
+            raw = self.rfile.read(length).decode("utf-8") if length > 0 else "{}"
+            data = json.loads(raw)
 
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {"role": "system", "content": context},
-                {"role": "user", "content": message}
-            ],
-            temperature=0.4
-        )
+            message = (data.get("message") or "").strip()
+            lang = (data.get("lang") or "en").lower()
 
-        reply = response.choices[0].message.content
+            if not message:
+                return self._send_json(400, {"reply": "Empty message."})
 
-        return {
-            "statusCode": 200,
-            "headers": {"Content-Type": "application/json"},
-            "body": json.dumps({"reply": reply})
-        }
+            api_key = os.environ.get("OPENAI_API_KEY")
+            if not api_key:
+                return self._send_json(500, {"reply": "OPENAI_API_KEY missing in Vercel Environment Variables."})
 
-    except Exception as e:
-        return {
-            "statusCode": 500,
-            "body": json.dumps({"reply": str(e)})
-        }
+            client = OpenAI(api_key=api_key)
+            system_context = BUSINESS_CONTEXT_AR if lang == "ar" else BUSINESS_CONTEXT_EN
+
+            resp = client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[
+                    {"role": "system", "content": system_context},
+                    {"role": "user", "content": message}
+                ],
+                temperature=0.4
+            )
+
+            reply = resp.choices[0].message.content
+            return self._send_json(200, {"reply": reply})
+
+        except Exception as e:
+            return self._send_json(500, {"reply": f"Server error: {str(e)}"})
