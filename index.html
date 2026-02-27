@@ -8,17 +8,40 @@
 </head>
 <body>
   <div class="container">
-    <h1>Ahmed Mohy — AI Chatbot</h1>
-    <p>AI Engineer | Machine Learning & Deep Learning Specialist</p>
+    <header class="top">
+      <div>
+        <h1 id="title">Ahmed Mohy — AI Chatbot</h1>
+        <p id="subtitle">AI Engineer | Machine Learning & Deep Learning Specialist</p>
+      </div>
 
-    <button id="langBtn">AR</button>
+      <div class="actions">
+        <button id="langBtn" class="pill" type="button">AR</button>
+        <a class="pill" href="https://github.com/AhmedMohy99" target="_blank" rel="noreferrer">GitHub</a>
+      </div>
+    </header>
 
-    <div id="chat" style="height:350px; overflow:auto; border:1px solid #ccc; padding:10px; margin:10px 0;"></div>
+    <div class="links">
+      <a class="pill" href="mailto:Ahmed171684@gmail.com">Email</a>
+      <a class="pill" href="https://wa.me/201016286261" target="_blank" rel="noreferrer">WhatsApp</a>
+      <a class="pill" href="https://www.instagram.com/ahmed.abdrabboo/" target="_blank" rel="noreferrer">Instagram</a>
+    </div>
 
-    <input id="msg" placeholder="Type a message..." style="width:75%; padding:10px;">
-    <button id="send">Send</button>
+    <main class="card">
+      <div id="chat" class="chat"></div>
 
-    <script src="script.js"></script>
+      <div class="composer">
+        <input id="msg" type="text" placeholder="Type a message…" />
+        <button id="send" type="button">Send</button>
+      </div>
+
+      <div id="tips" class="tips">
+        Try: “What services do you offer?” • “How much does a chatbot cost?” • “How can I contact you?”
+      </div>
+    </main>
+
+    <footer class="footer">© 2026 Ahmed Mohy</footer>
   </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
