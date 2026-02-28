@@ -1,60 +1,99 @@
-:root{
-  --bg:#0b1020; --card:#121a33; --text:#e9ecff; --muted:#b7c0ff;
-  --accent:#ff2d2d; --border: rgba(255,255,255,.12);
-}
-*{box-sizing:border-box}
 body{
-  margin:0; font-family:system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  color:var(--text);
-  background:
-    radial-gradient(900px 500px at 15% 10%, rgba(255,45,45,.20), transparent 60%),
-    radial-gradient(900px 500px at 85% 20%, rgba(255,255,255,.10), transparent 60%),
-    var(--bg);
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#0e1220;
+  color:white;
 }
-.container{max-width:900px; margin:auto; padding:22px}
-.top{display:flex; justify-content:space-between; gap:12px; align-items:center; flex-wrap:wrap}
-h1{margin:0; font-size:20px}
-p{margin:6px 0 0; color:var(--muted)}
-.actions{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
-.pill{
-  padding:10px 12px; border-radius:999px; border:1px solid var(--border);
-  background: rgba(255,255,255,.05); color:var(--text);
-  text-decoration:none; cursor:pointer;
-}
-.links{display:flex; gap:10px; flex-wrap:wrap; margin:12px 0}
-.card{
-  background: rgba(18,26,51,.75);
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:14px;
-}
-.chat{
-  height:420px; overflow:auto; padding:10px;
-  border-radius:14px; background: rgba(255,255,255,.03);
-  border:1px solid var(--border);
-}
-.msg{max-width:80%; padding:10px 12px; border-radius:14px; margin:10px 0; border:1px solid var(--border)}
-.user{margin-left:auto; background: rgba(255,45,45,.13); border-color: rgba(255,45,45,.35)}
-.bot{margin-right:auto; background: rgba(255,255,255,.05)}
-.meta{font-size:12px; color:var(--muted); margin-bottom:6px}
-.composer{display:flex; gap:10px; margin-top:12px}
-input{
-  flex:1; padding:12px; border-radius:14px; border:1px solid var(--border);
-  background: rgba(255,255,255,.04); color:var(--text); outline:none;
-}
-button{
-  padding:12px 14px; border-radius:14px; border:1px solid rgba(255,45,45,.45);
-  background: linear-gradient(135deg, rgba(255,45,45,.95), rgba(255,255,255,.12));
-  color:var(--text); cursor:pointer;
-}
-button:disabled{opacity:.6; cursor:not-allowed}
-.tips{margin-top:10px; color:var(--muted); font-size:13px}
-.footer{margin-top:12px; text-align:center; color:var(--muted); font-size:13px}
-.mode{font-size:13px; margin-top:4px}
 
-/* RTL for Arabic */
-.rtl{direction:rtl}
-.rtl .top{flex-direction: row-reverse}
-.rtl .actions{justify-content:flex-start}
-.rtl .composer{flex-direction: row-reverse}
-.rtl .msg{ text-align:right; }
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:20px;
+}
+
+header{
+  text-align:center;
+  margin-bottom:20px;
+}
+
+.mode{
+  margin-top:8px;
+  font-size:14px;
+  color:#ff4d4d;
+}
+
+.buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+  margin-bottom:20px;
+}
+
+.buttons a,
+.buttons button{
+  background:#1c223d;
+  border:1px solid #333;
+  color:white;
+  padding:8px 14px;
+  border-radius:20px;
+  text-decoration:none;
+  cursor:pointer;
+}
+
+.buttons a:hover,
+.buttons button:hover{
+  background:#ff4d4d;
+}
+
+.chat{
+  background:#151a2e;
+  border-radius:12px;
+  padding:15px;
+  height:400px;
+  overflow:auto;
+  margin-bottom:15px;
+}
+
+.msg{
+  margin-bottom:12px;
+  padding:10px;
+  border-radius:10px;
+}
+
+.user{
+  background:#ff4d4d33;
+  text-align:right;
+}
+
+.bot{
+  background:#ffffff10;
+}
+
+.input-area{
+  display:flex;
+  gap:10px;
+}
+
+input{
+  flex:1;
+  padding:10px;
+  border-radius:8px;
+  border:none;
+}
+
+button{
+  padding:10px 15px;
+  border:none;
+  border-radius:8px;
+  background:#ff4d4d;
+  color:white;
+  cursor:pointer;
+}
+
+footer{
+  text-align:center;
+  margin-top:20px;
+  font-size:13px;
+  color:#aaa;
+}
