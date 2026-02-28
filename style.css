@@ -4,20 +4,22 @@
 }
 *{box-sizing:border-box}
 body{
-  margin:0; font-family:Arial, sans-serif; color:var(--text);
+  margin:0; font-family:system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color:var(--text);
   background:
     radial-gradient(900px 500px at 15% 10%, rgba(255,45,45,.20), transparent 60%),
     radial-gradient(900px 500px at 85% 20%, rgba(255,255,255,.10), transparent 60%),
     var(--bg);
 }
-.container{max-width:850px; margin:auto; padding:22px}
+.container{max-width:900px; margin:auto; padding:22px}
 .top{display:flex; justify-content:space-between; gap:12px; align-items:center; flex-wrap:wrap}
 h1{margin:0; font-size:20px}
 p{margin:6px 0 0; color:var(--muted)}
-.actions{display:flex; gap:10px; align-items:center}
+.actions{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
 .pill{
   padding:10px 12px; border-radius:999px; border:1px solid var(--border);
-  background: rgba(255,255,255,.05); color:var(--text); text-decoration:none; cursor:pointer;
+  background: rgba(255,255,255,.05); color:var(--text);
+  text-decoration:none; cursor:pointer;
 }
 .links{display:flex; gap:10px; flex-wrap:wrap; margin:12px 0}
 .card{
@@ -45,6 +47,14 @@ button{
   background: linear-gradient(135deg, rgba(255,45,45,.95), rgba(255,255,255,.12));
   color:var(--text); cursor:pointer;
 }
+button:disabled{opacity:.6; cursor:not-allowed}
 .tips{margin-top:10px; color:var(--muted); font-size:13px}
 .footer{margin-top:12px; text-align:center; color:var(--muted); font-size:13px}
+.mode{font-size:13px; margin-top:4px}
+
+/* RTL for Arabic */
 .rtl{direction:rtl}
+.rtl .top{flex-direction: row-reverse}
+.rtl .actions{justify-content:flex-start}
+.rtl .composer{flex-direction: row-reverse}
+.rtl .msg{ text-align:right; }
