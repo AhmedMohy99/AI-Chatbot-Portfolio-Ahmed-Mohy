@@ -9,29 +9,38 @@
 <body>
   <div class="container">
 
-    <header>
-      <h1>Ahmed Mohy — AI Assistant</h1>
-      <p>AI Engineer | Machine Learning | Deep Learning | CNN Specialist</p>
+    <header class="header">
+      <h1 id="title">Ahmed Mohy — AI Assistant</h1>
+      <p id="subtitle">AI Engineer | Machine Learning | Deep Learning | CNN Specialist</p>
       <div class="mode" id="modeText">Mode: FAQ</div>
+
+      <div class="buttons">
+        <button class="chip" id="langBtn" type="button">AR</button>
+        <a class="chip" href="https://github.com/AhmedMohy99" target="_blank" rel="noreferrer">GitHub</a>
+        <a class="chip" href="https://www.linkedin.com/in/ahmed-mohy-83b447220/" target="_blank" rel="noreferrer">LinkedIn</a>
+        <a class="chip" href="mailto:Ahmed171684@gmail.com">Email</a>
+        <a class="chip" href="https://wa.me/201016286261" target="_blank" rel="noreferrer">WhatsApp</a>
+        <a class="chip" href="https://www.instagram.com/ahmed.abdrabboo/" target="_blank" rel="noreferrer">Instagram</a>
+        <button class="chip chip-ghost" id="clearBtn" type="button">Clear</button>
+      </div>
     </header>
 
-    <div class="buttons">
-      <button onclick="toggleLang()" id="langBtn">AR</button>
-      <a href="https://github.com/AhmedMohy99" target="_blank">GitHub</a>
-      <a href="https://www.linkedin.com/in/ahmed-mohy-83b447220/" target="_blank">LinkedIn</a>
-      <a href="mailto:Ahmed171684@gmail.com">Email</a>
-      <a href="https://wa.me/201016286261" target="_blank">WhatsApp</a>
-      <a href="https://www.instagram.com/ahmed.abdrabboo/" target="_blank">Instagram</a>
-    </div>
+    <main class="card">
+      <div id="chat" class="chat"></div>
 
-    <div id="chat" class="chat"></div>
+      <div class="quick" id="quick">
+        <button class="quickBtn" data-q="services">What services do you offer?</button>
+        <button class="quickBtn" data-q="pricing">How much does a chatbot cost?</button>
+        <button class="quickBtn" data-q="contact">How can I contact you?</button>
+      </div>
 
-    <div class="input-area">
-      <input id="msg" placeholder="Type your message..." />
-      <button onclick="sendMessage()">Send</button>
-    </div>
+      <div class="composer">
+        <input id="msg" type="text" placeholder="Type your message..." />
+        <button id="send" type="button">Send</button>
+      </div>
+    </main>
 
-    <footer>© 2026 Ahmed Mohy</footer>
+    <footer class="footer">© 2026 Ahmed Mohy</footer>
   </div>
 
   <script src="script.js"></script>
