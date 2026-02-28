@@ -2,15 +2,18 @@ const chat = document.getElementById("chat");
 const msg = document.getElementById("msg");
 const send = document.getElementById("send");
 const langBtn = document.getElementById("langBtn");
+const modeText = document.getElementById("modeText");
 
 const UI = {
   en: {
     placeholder: "Type a message… (e.g., What services do you offer?)",
     send: "Send",
-    welcome: "Hi! I’m Ahmed Mohy’s AI assistant. Ask me about services, pricing, or contact.",
+    welcome: "Hi! I’m Ahmed Mohy’s assistant. Ask me about services, pricing, or contact.",
     you: "You",
     bot: "Bot",
-    tips: "Try: “What services do you offer?” • “How much does a chatbot cost?” • “How can I contact you?”"
+    tips: "Try: “What services do you offer?” • “How much does a chatbot cost?” • “How can I contact you?”",
+    modeAI: "Mode: AI",
+    modeFAQ: "Mode: FAQ (fallback)"
   },
   ar: {
     placeholder: "اكتب رسالة… (مثال: ما هي الخدمات التي تقدمها؟)",
@@ -18,7 +21,9 @@ const UI = {
     welcome: "مرحباً! أنا مساعد أحمد محي. اسألني عن الخدمات والأسعار وطرق التواصل.",
     you: "أنت",
     bot: "المساعد",
-    tips: "جرّب: “ما هي الخدمات التي تقدمها؟” • “كم تكلفة الشات بوت؟” • “كيف أتواصل معك؟”"
+    tips: "جرّب: “ما هي الخدمات التي تقدمها؟” • “كم تكلفة الشات بوت؟” • “كيف أتواصل معك؟”",
+    modeAI: "الوضع: AI",
+    modeFAQ: "الوضع: FAQ (بدون API)"
   }
 };
 
@@ -52,11 +57,17 @@ function addMessage(role, text){
   chat.scrollTop = chat.scrollHeight;
 }
 
+function setModeLabel(mode){
+  const lang = getLang();
+  if(mode === "ai") modeText.textContent = UI[lang].modeAI;
+  else modeText.textContent = UI[lang].modeFAQ;
+}
+
 async function sendMessage(){
   const text = msg.value.trim();
   if(!text) return;
 
-  // Prevent people from typing API keys here
+  // prevent keys in chat
   if(text.toLowerCase().startsWith("sk-") || text.toUpperCase().startsWith("SK-")){
     addMessage("bot", "Don’t paste API keys in chat. Add it in Vercel → Settings → Environment Variables as OPENAI_API_KEY.");
     msg.value = "";
@@ -84,9 +95,11 @@ async function sendMessage(){
 
     history.push({ role: "assistant", content: reply });
     setHistory(history.slice(-20)); // keep last 20 messages
+    setModeLabel(data.mode || "faq");
 
   }catch(e){
     addMessage("bot", "Network error. Check Vercel logs.");
+    setModeLabel("faq");
   }finally{
     send.disabled = false;
     msg.focus();
@@ -99,8 +112,12 @@ msg.addEventListener("keydown", (e)=>{ if(e.key === "Enter") sendMessage(); });
 langBtn.addEventListener("click", ()=>{
   const current = getLang();
   setLang(current === "en" ? "ar" : "en");
+  // update label in selected language
+  const currentMode = (modeText.textContent.includes("AI") || modeText.textContent.includes("AI")) ? "ai" : "faq";
+  setModeLabel(currentMode);
 });
 
 // init
 setLang(getLang());
+setModeLabel("faq");
 addMessage("bot", UI[getLang()].welcome);
