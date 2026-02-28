@@ -3,45 +3,35 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Ahmed Mohy | AI Chatbot</title>
+  <title>Ahmed Mohy | AI Assistant</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <header class="top">
-      <div>
-        <h1 id="title">Ahmed Mohy — AI Chatbot</h1>
-        <p id="subtitle">AI Engineer | Machine Learning & Deep Learning Specialist</p>
-        <p class="mode" id="modeText">Mode: …</p>
-      </div>
 
-      <div class="actions">
-        <button id="langBtn" class="pill" type="button">AR</button>
-        <a class="pill" href="https://github.com/AhmedMohy99" target="_blank" rel="noreferrer">GitHub</a>
-        <a class="pill" href="https://www.linkedin.com/in/ahmed-mohy-83b447220/" target="_blank" rel="noreferrer">LinkedIn</a>
-      </div>
+    <header>
+      <h1>Ahmed Mohy — AI Assistant</h1>
+      <p>AI Engineer | Machine Learning | Deep Learning | CNN Specialist</p>
+      <div class="mode" id="modeText">Mode: FAQ</div>
     </header>
 
-    <div class="links">
-      <a class="pill" href="mailto:Ahmed171684@gmail.com">Email</a>
-      <a class="pill" href="https://wa.me/201016286261" target="_blank" rel="noreferrer">WhatsApp</a>
-      <a class="pill" href="https://www.instagram.com/ahmed.abdrabboo/" target="_blank" rel="noreferrer">Instagram</a>
+    <div class="buttons">
+      <button onclick="toggleLang()" id="langBtn">AR</button>
+      <a href="https://github.com/AhmedMohy99" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/ahmed-mohy-83b447220/" target="_blank">LinkedIn</a>
+      <a href="mailto:Ahmed171684@gmail.com">Email</a>
+      <a href="https://wa.me/201016286261" target="_blank">WhatsApp</a>
+      <a href="https://www.instagram.com/ahmed.abdrabboo/" target="_blank">Instagram</a>
     </div>
 
-    <main class="card">
-      <div id="chat" class="chat"></div>
+    <div id="chat" class="chat"></div>
 
-      <div class="composer">
-        <input id="msg" type="text" placeholder="Type a message…" />
-        <button id="send" type="button">Send</button>
-      </div>
+    <div class="input-area">
+      <input id="msg" placeholder="Type your message..." />
+      <button onclick="sendMessage()">Send</button>
+    </div>
 
-      <div id="tips" class="tips">
-        Try: “What services do you offer?” • “How much does a chatbot cost?” • “How can I contact you?”
-      </div>
-    </main>
-
-    <footer class="footer">© 2026 Ahmed Mohy</footer>
+    <footer>© 2026 Ahmed Mohy</footer>
   </div>
 
   <script src="script.js"></script>
