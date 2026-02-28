@@ -2,28 +2,44 @@ const chat = document.getElementById("chat");
 const msg = document.getElementById("msg");
 const send = document.getElementById("send");
 const langBtn = document.getElementById("langBtn");
+const clearBtn = document.getElementById("clearBtn");
 const modeText = document.getElementById("modeText");
+const quick = document.getElementById("quick");
 
 const UI = {
   en: {
-    placeholder: "Type a message… (e.g., What services do you offer?)",
+    title: "Ahmed Mohy — AI Assistant",
+    subtitle: "AI Engineer | Machine Learning | Deep Learning | CNN Specialist",
+    placeholder: "Type your message...",
     send: "Send",
-    welcome: "Hi! I’m Ahmed Mohy’s assistant. Ask me about services, pricing, or contact.",
+    clear: "Clear",
+    modeAI: "Mode: AI",
+    modeFAQ: "Mode: FAQ",
     you: "You",
     bot: "Bot",
-    tips: "Try: “What services do you offer?” • “How much does a chatbot cost?” • “How can I contact you?”",
-    modeAI: "Mode: AI",
-    modeFAQ: "Mode: FAQ (fallback)"
+    welcome: "Hi! I’m Ahmed Mohy’s assistant. Ask me about services, pricing, or contact.",
+    quick: {
+      services: "What services do you offer?",
+      pricing: "How much does a chatbot cost?",
+      contact: "How can I contact you?"
+    }
   },
   ar: {
-    placeholder: "اكتب رسالة… (مثال: ما هي الخدمات التي تقدمها؟)",
+    title: "أحمد محي — مساعد ذكي",
+    subtitle: "مهندس ذكاء اصطناعي | تعلم آلة | تعلم عميق | متخصص CNN",
+    placeholder: "اكتب رسالتك...",
     send: "إرسال",
-    welcome: "مرحباً! أنا مساعد أحمد محي. اسألني عن الخدمات والأسعار وطرق التواصل.",
+    clear: "مسح",
+    modeAI: "الوضع: AI",
+    modeFAQ: "الوضع: FAQ",
     you: "أنت",
     bot: "المساعد",
-    tips: "جرّب: “ما هي الخدمات التي تقدمها؟” • “كم تكلفة الشات بوت؟” • “كيف أتواصل معك؟”",
-    modeAI: "الوضع: AI",
-    modeFAQ: "الوضع: FAQ (بدون API)"
+    welcome: "مرحباً! أنا مساعد أحمد محي. اسألني عن الخدمات أو الأسعار أو التواصل.",
+    quick: {
+      services: "ما هي الخدمات التي تقدمها؟",
+      pricing: "كم تكلفة الشات بوت؟",
+      contact: "كيف أتواصل معك؟"
+    }
   }
 };
 
@@ -31,58 +47,81 @@ function getLang(){ return localStorage.getItem("lang") || "en"; }
 function setLang(lang){
   localStorage.setItem("lang", lang);
   document.body.classList.toggle("rtl", lang === "ar");
-  langBtn.textContent = (lang === "ar") ? "EN" : "AR";
+  document.documentElement.lang = lang;
+
+  document.getElementById("title").textContent = UI[lang].title;
+  document.getElementById("subtitle").textContent = UI[lang].subtitle;
+
   msg.placeholder = UI[lang].placeholder;
   send.textContent = UI[lang].send;
-  document.getElementById("tips").textContent = UI[lang].tips;
+  clearBtn.textContent = UI[lang].clear;
+
+  // toggle button shows the OTHER language
+  langBtn.textContent = (lang === "ar") ? "EN" : "AR";
+
+  // quick buttons text
+  const btns = quick.querySelectorAll(".quickBtn");
+  btns[0].textContent = UI[lang].quick.services;
+  btns[1].textContent = UI[lang].quick.pricing;
+  btns[2].textContent = UI[lang].quick.contact;
+
+  // update mode label language only
+  const currentMode = (modeText.dataset.mode || "faq");
+  setMode(currentMode);
 }
 
-function getHistory(){
+function setMode(mode){
+  modeText.dataset.mode = mode;
+  const lang = getLang();
+  modeText.textContent = (mode === "ai") ? UI[lang].modeAI : UI[lang].modeFAQ;
+}
+
+function loadHistory(){
   try { return JSON.parse(localStorage.getItem("history") || "[]"); }
   catch { return []; }
 }
-function setHistory(h){ localStorage.setItem("history", JSON.stringify(h)); }
+function saveHistory(h){
+  localStorage.setItem("history", JSON.stringify(h.slice(-20)));
+}
 
-function addMessage(role, text){
+function addBubble(role, text){
   const lang = getLang();
   const wrap = document.createElement("div");
-  wrap.className = `msg ${role}`;
+  wrap.className = `bubble ${role}`;
+
   const meta = document.createElement("div");
   meta.className = "meta";
-  meta.textContent = role === "user" ? UI[lang].you : UI[lang].bot;
+  meta.textContent = (role === "user") ? UI[lang].you : UI[lang].bot;
+
   const body = document.createElement("div");
   body.textContent = text;
-  wrap.append(meta, body);
+
+  wrap.appendChild(meta);
+  wrap.appendChild(body);
   chat.appendChild(wrap);
   chat.scrollTop = chat.scrollHeight;
 }
 
-function setModeLabel(mode){
-  const lang = getLang();
-  if(mode === "ai") modeText.textContent = UI[lang].modeAI;
-  else modeText.textContent = UI[lang].modeFAQ;
-}
-
-async function sendMessage(){
-  const text = msg.value.trim();
+async function sendMessage(textOverride=null){
+  const text = (textOverride ?? msg.value).trim();
   if(!text) return;
 
-  // prevent keys in chat
+  // don’t paste keys in chat
   if(text.toLowerCase().startsWith("sk-") || text.toUpperCase().startsWith("SK-")){
-    addMessage("bot", "Don’t paste API keys in chat. Add it in Vercel → Settings → Environment Variables as OPENAI_API_KEY.");
+    addBubble("bot", "Don’t paste API keys here. Add OPENAI_API_KEY in Vercel → Settings → Environment Variables.");
     msg.value = "";
     return;
   }
 
-  addMessage("user", text);
+  addBubble("user", text);
   msg.value = "";
   send.disabled = true;
 
-  const history = getHistory();
+  const lang = getLang();
+  const history = loadHistory();
   history.push({ role: "user", content: text });
 
   try{
-    const lang = getLang();
     const res = await fetch("/api/chat", {
       method: "POST",
       headers: {"Content-Type":"application/json"},
@@ -91,33 +130,48 @@ async function sendMessage(){
 
     const data = await res.json();
     const reply = data.reply || "No reply.";
-    addMessage("bot", reply);
+    addBubble("bot", reply);
 
     history.push({ role: "assistant", content: reply });
-    setHistory(history.slice(-20)); // keep last 20 messages
-    setModeLabel(data.mode || "faq");
+    saveHistory(history);
 
+    setMode(data.mode || "faq");
   }catch(e){
-    addMessage("bot", "Network error. Check Vercel logs.");
-    setModeLabel("faq");
+    addBubble("bot", "Network error. Please check Vercel logs.");
+    setMode("faq");
   }finally{
     send.disabled = false;
     msg.focus();
   }
 }
 
-send.addEventListener("click", sendMessage);
+function clearChat(){
+  localStorage.removeItem("history");
+  chat.innerHTML = "";
+  addBubble("bot", UI[getLang()].welcome);
+  setMode("faq");
+}
+
+// events
+send.addEventListener("click", ()=>sendMessage());
 msg.addEventListener("keydown", (e)=>{ if(e.key === "Enter") sendMessage(); });
 
 langBtn.addEventListener("click", ()=>{
   const current = getLang();
   setLang(current === "en" ? "ar" : "en");
-  // update label in selected language
-  const currentMode = (modeText.textContent.includes("AI") || modeText.textContent.includes("AI")) ? "ai" : "faq";
-  setModeLabel(currentMode);
+});
+
+clearBtn.addEventListener("click", clearChat);
+
+quick.addEventListener("click", (e)=>{
+  const btn = e.target.closest(".quickBtn");
+  if(!btn) return;
+  const key = btn.dataset.q;
+  const lang = getLang();
+  const qText = UI[lang].quick[key] || btn.textContent;
+  sendMessage(qText);
 });
 
 // init
 setLang(getLang());
-setModeLabel("faq");
-addMessage("bot", UI[getLang()].welcome);
+clearChat();
