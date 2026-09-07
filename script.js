@@ -9,9 +9,8 @@ const PROJECTS = [
   { name: "Saffa Fashion", url: "https://www.saffafashion.shop", category: "Fashion · Web", image: "assets/projects/saffa.png", theme: "fashion" },
   { name: "ZREX", url: "https://zrexeg.com", category: "Fashion · Commerce", image: "assets/projects/zrexeg.png", theme: "commerce" },
   { name: "SWAY Maverick", url: "https://swaymaverick.com", category: "Fashion · Brand experience", image: "assets/projects/swaymaverick.png", theme: "streetwear" },
-  { name: "UCYPTA", url: "https://ucypta-fs.myshopify.com", category: "Shopify · Storefront", image: "assets/projects/ucypta.png", theme: "commerce" },
   { name: "Elprof10", url: "https://elprof10.com", category: "Digital experience", image: "assets/projects/elprof10.png", theme: "digital" },
-  { name: "Royal Watch", url: "https://www.officialroyalwatch.com", category: "Luxury · Product presentation", image: "assets/projects/royalwatch.png", theme: "luxury" },
+  { name: "Royal Watch", url: "https://royalwatch.art/en", category: "Luxury · Product presentation", image: "assets/projects/royalwatch.png", theme: "luxury" },
   { name: "We Wave Agency", url: "https://we-wave-agency.vercel.app", category: "Agency · Portfolio", image: "assets/projects/we-wave-agency.png", theme: "agency" },
   { name: "IRIS Contemporary Womenswear", url: "https://iriseg.net", category: "Luxury fashion · E-commerce", image: "assets/projects/iris.jpg", theme: "iris" }
 ];
