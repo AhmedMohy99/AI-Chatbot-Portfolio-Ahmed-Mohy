@@ -6,17 +6,72 @@ const previewUrl = document.getElementById("previewUrl");
 const previewExternal = document.getElementById("previewExternal");
 const previewClose = document.getElementById("previewClose");
 
-const PROJECTS = {
-  "Saffa Fashion": { url: "https://saffafashion.shop/", category: "Fashion · Web", selected: true },
-  "SWAY Maverick": { url: "https://swaymaverick.com/", category: "Fashion · Brand experience", selected: true },
-  "Ucypta": { url: null, category: "Shopify · Storefront", selected: true },
-  "Elprof10": { url: "https://elprof10.com/", category: "Digital experience", selected: true },
-  "Royal Watch": { url: "https://www.officialroyalwatch.com/", category: "Luxury · Product presentation", selected: true },
-  "LARO Cosmetics": { url: "https://laro-cosmetics.com/", category: "Beauty · Shopify", selected: false },
-  "IRIS Contemporary Womenswear": { url: "https://iris-eg.net/", category: "Luxury fashion · E-commerce", selected: false },
-  "ZREX": { url: "https://zrexeg.com/", category: "Fashion · Commerce", selected: false },
-  "We Wave Agency": { url: "https://we-wave-agency.vercel.app/", category: "Agency · Portfolio", selected: false }
-};
+// Canonical WORK list shared with the main Ahmed Mohy portfolio.
+const PROJECTS = [
+  {
+    name: "Saffa Fashion",
+    url: "https://www.saffafashion.shop/",
+    category: "Fashion · Web",
+    description: "A fashion storefront built product-first, with responsive galleries and a cart experience designed for mobile shoppers.",
+    image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://www.saffafashion.shop/"
+  },
+  {
+    name: "SWAY Maverick",
+    url: "https://swaymaverick.com/",
+    category: "Fashion · Brand experience",
+    description: "A fashion commerce experience that ties brand storytelling directly to the product grid, so browsing feels like reading a lookbook.",
+    image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://swaymaverick.com/"
+  },
+  {
+    name: "UCYPTA",
+    url: "https://ucypta-fs.myshopify.com/",
+    category: "Shopify · Storefront",
+    description: "A Shopify storefront foundation with product-led navigation and a streamlined shopping interface.",
+    image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://ucypta-fs.myshopify.com/"
+  },
+  {
+    name: "Elprof10",
+    url: "https://elprof10.com/",
+    category: "Digital experience",
+    description: "Digital product and web experience work focused on usability, presentation and a modern responsive interface.",
+    image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://elprof10.com/"
+  },
+  {
+    name: "Royal Watch",
+    url: "http://royalwatch.art/",
+    category: "Luxury · Product presentation",
+    description: "Luxury watch presentation and commerce, built around premium product storytelling and visual hierarchy.",
+    image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/http://royalwatch.art/"
+  },
+  {
+    name: "We Wave Agency",
+    url: "https://we-wave-agency.vercel.app/",
+    category: "Agency · Portfolio",
+    description: "A brand experience and agency portfolio designed to present work with a stronger visual hierarchy and a more confident digital identity.",
+    image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://we-wave-agency.vercel.app/"
+  },
+  {
+    name: "LARO Cosmetics",
+    url: "https://laro-cosmetics.com/",
+    category: "Beauty · Shopify",
+    description: "A beauty commerce storefront rebuilt around product clarity — cleaner navigation, faster browsing and a shopping journey that respects the product.",
+    image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://laro-cosmetics.com/"
+  },
+  {
+    name: "IRIS Contemporary Womenswear",
+    url: "https://iriseg.net/",
+    category: "Luxury fashion · E-commerce",
+    description: "A quiet-luxury womenswear experience reshaped around premium presentation, clearer navigation and a stronger path to checkout.",
+    image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://iriseg.net/"
+  },
+  {
+    name: "ZREX",
+    url: "https://zrexeg.com/",
+    category: "Fashion · Commerce",
+    description: "Fashion commerce and product experience work focused on a clear path from discovery to purchase.",
+    image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://zrexeg.com/"
+  }
+];
 
 const UI = {
   en: {
@@ -42,28 +97,30 @@ function setLang(lang){
   langBtn.textContent = UI[lang].lang;
 }
 
-function normalizeProject(card){
-  const name = card.querySelector("h3")?.textContent?.trim();
-  const project = PROJECTS[name];
-  if(!project) return { card, name: name || "Project", project: {} };
-
+function normalizeProject(card, project, index){
   card.dataset.category = project.category;
-  card.dataset.selected = String(project.selected);
+  card.dataset.liveUrl = project.url;
+  card.classList.remove("work-card-large", "featured-project");
+  card.classList.add("work-card-unified");
+  card.style.gridColumn = "auto";
 
   const image = card.querySelector(".work-image");
   const img = image?.querySelector("img");
-  if(project.url && image && !image.querySelector("iframe.live-site-frame")){
-    const iframe = document.createElement("iframe");
-    iframe.className = "live-site-frame";
-    iframe.src = project.url;
-    iframe.title = `${name} live website preview`;
-    iframe.loading = "lazy";
-    iframe.referrerPolicy = "strict-origin-when-cross-origin";
-    iframe.setAttribute("aria-hidden", "true");
-    image.classList.add("has-live-site");
-    image.prepend(iframe);
-    if(img) img.classList.add("preview-fallback");
+  image?.querySelectorAll("iframe.live-site-frame").forEach(frame => frame.remove());
+  image?.classList.remove("has-live-site");
+  img?.classList.remove("preview-fallback");
+  if(img){
+    img.src = project.image;
+    img.alt = `Live homepage preview of ${project.name}`;
+    img.loading = index < 2 ? "eager" : "lazy";
   }
+
+  const hostname = (() => {
+    try { return new URL(project.url).hostname.replace(/^www\./, ""); }
+    catch { return project.url; }
+  })();
+  const browserLabel = card.querySelector(".browser-bar small");
+  if(browserLabel) browserLabel.textContent = hostname;
 
   const info = card.querySelector(".work-info");
   if(info){
@@ -75,40 +132,63 @@ function normalizeProject(card){
       if(label) topline.appendChild(label);
       info.prepend(topline);
     }
+
     const label = topline.querySelector("span");
-    if(label) label.textContent = `${project.category}`;
-    if(project.url && !topline.querySelector(".project-link")){
-      const link = document.createElement("a");
+    if(label) label.textContent = `${String(index + 1).padStart(2, "0")} · ${project.category}`;
+
+    let link = topline.querySelector(".project-link");
+    if(!link){
+      link = document.createElement("a");
       link.className = "project-link";
-      link.href = project.url;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      link.textContent = "View case study ↗";
       topline.appendChild(link);
     }
+    link.href = project.url;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = "View Website ↗";
+
+    const title = info.querySelector("h3");
+    if(title) title.textContent = project.name;
+
+    let description = info.querySelector("p");
+    if(!description){
+      description = document.createElement("p");
+      info.appendChild(description);
+    }
+    description.textContent = project.description;
   }
-  return { card, name, project };
+
+  let number = card.querySelector(".work-number");
+  if(!number){
+    number = document.createElement("span");
+    number.className = "work-number";
+    card.querySelector(".browser-frame")?.appendChild(number);
+  }
+  number.textContent = String(index + 1).padStart(2, "0");
+
+  return card;
 }
 
 function buildWorkLayout(){
   const grid = document.querySelector(".work-grid");
   if(!grid) return;
-  const cards = [...grid.querySelectorAll(".work-card")].map(normalizeProject);
-  const selected = cards.filter(item => item.project.selected);
-  const archived = cards.filter(item => item.project.selected === false);
+
+  const cardsByName = new Map(
+    [...grid.querySelectorAll(".work-card")].map(card => [
+      card.querySelector("h3")?.textContent?.trim(),
+      card
+    ])
+  );
 
   grid.innerHTML = "";
-  selected.forEach(item => grid.appendChild(item.card));
+  PROJECTS.forEach((project, index) => {
+    const card = cardsByName.get(project.name) || [...cardsByName.entries()].find(([name]) =>
+      name?.toLowerCase() === project.name.toLowerCase()
+    )?.[1];
+    if(card) grid.appendChild(normalizeProject(card, project, index));
+  });
 
-  const archiveLabel = document.createElement("div");
-  archiveLabel.className = "archive-heading";
-  archiveLabel.innerHTML = '<div class="eyebrow">ARCHIVED WORK</div><h3>Earlier projects, preserved as case studies and live homepage previews.</h3><p>These projects remain part of the work history while the selected work above stays focused on the strongest current examples.</p>';
-  grid.parentNode.insertBefore(archiveLabel, grid.nextSibling);
-
-  const archiveGrid = document.createElement("div");
-  archiveGrid.className = "work-grid archive-grid";
-  archived.forEach(item => archiveGrid.appendChild(item.card));
-  archiveLabel.after(archiveGrid);
+  document.querySelectorAll(".archive-heading, .archive-grid").forEach(node => node.remove());
 
   document.querySelectorAll(".live-preview").forEach(button => {
     button.addEventListener("click", event => {
@@ -128,8 +208,10 @@ function closePreview(){
 
 function openPreview(card){
   const name = card.querySelector("h3")?.textContent?.trim() || "Project Preview";
-  const url = PROJECTS[name]?.url || card.dataset.liveUrl;
+  const project = PROJECTS.find(item => item.name.toLowerCase() === name.toLowerCase());
+  const url = project?.url || card.dataset.liveUrl;
   if(!url) return;
+
   previewTitle.textContent = name;
   previewUrl.textContent = new URL(url).hostname;
   previewExternal.href = url;
