@@ -5,10 +5,10 @@ const previewClose = document.getElementById("previewClose");
 const WHATSAPP_URL = "https://wa.me/201016286261";
 
 const PROJECTS = [
-  { name: "LARO Cosmetics", url: "https://laro-cosmetics.com/", category: "Beauty · Shopify", image: "assets/projects/laro.png", theme: "beauty" },
+  { name: "LARO Cosmetics", url: "https://laro-cosmetics.com/", category: "Beauty · Shopify", image: "assets/projects/laro.png", theme: "beauty", preview: "fallback" },
   { name: "Saffa Fashion", url: "https://www.saffafashion.shop/", category: "Fashion · E-commerce", image: "assets/projects/saffa.png", theme: "fashion" },
-  { name: "SWAY Maverick", url: "https://swaymaverick.com/", category: "Fashion · Brand experience", image: "assets/projects/swaymaverick.png", theme: "streetwear" },
-  { name: "Ucypta", url: "https://ucypta-fs.myshopify.com/", category: "E-commerce · Shopify", image: "assets/projects/ucypta.png", theme: "commerce" },
+  { name: "SWAY Maverick", url: "https://swaymaverick.com/", category: "Fashion · Brand experience", image: "assets/projects/swaymaverick.png", theme: "streetwear", preview: "fallback" },
+  { name: "Ucypta", url: "https://ucypta-fs.myshopify.com/", category: "E-commerce · Shopify", image: "assets/projects/ucypta.png", theme: "commerce", preview: "fallback" },
   { name: "Royal Watch", url: "https://royalwatch.art/en", category: "Luxury · E-commerce", image: "assets/projects/royalwatch.png", theme: "luxury" },
   { name: "ZREX", url: "https://zrexeg.com/", category: "Fashion · Commerce", image: "assets/projects/zrexeg.png", theme: "commerce" },
   { name: "Elprof10", url: "https://elprof10.com/", category: "Digital experience", image: "assets/projects/elprof10.png", theme: "digital" },
@@ -107,8 +107,23 @@ function create3DScene(theme, index){
 
 function createLivePreview(project, index){
   const wrap = document.createElement("div");
-  wrap.className = "live-preview-wrap";
-  wrap.setAttribute("aria-label", `${project.name} live website preview`);
+  wrap.className = `live-preview-wrap preview-${project.preview === "fallback" ? "fallback" : "live"}`;
+  wrap.setAttribute("aria-label", `${project.name} website preview`);
+
+  if(project.preview === "fallback"){
+    const previewImage = document.createElement("img");
+    previewImage.className = "preview-fallback-image";
+    previewImage.src = project.image;
+    previewImage.alt = `${project.name} website preview`;
+    previewImage.loading = index < 2 ? "eager" : "lazy";
+    wrap.appendChild(previewImage);
+
+    const overlay = document.createElement("div");
+    overlay.className = "preview-fallback-overlay";
+    overlay.innerHTML = `<span>LIVE SITE · OPEN WEBSITE</span>`;
+    wrap.appendChild(overlay);
+    return wrap;
+  }
 
   const iframe = document.createElement("iframe");
   iframe.className = "live-site-frame";
@@ -147,7 +162,7 @@ function normalizeProject(card, project, index){
 
   if(img){
     img.src = project.image;
-    img.alt = `${project.name} live website fallback preview`;
+    img.alt = `${project.name} website preview`;
     img.loading = index < 2 ? "eager" : "lazy";
   }
 
