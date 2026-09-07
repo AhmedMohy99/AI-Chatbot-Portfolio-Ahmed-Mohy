@@ -4,8 +4,6 @@ const previewClose = document.getElementById("previewClose");
 
 const WHATSAPP_URL = "https://wa.me/201016286261";
 
-// Selected work: local screenshots are used for a clean, fast presentation.
-// Each project keeps its real live URL behind the ENTER WEBSITE CTA.
 const PROJECTS = [
   { name: "Saffa Fashion", url: "https://www.saffafashion.shop/", category: "Fashion · Web", image: "assets/projects/saffa.png", theme: "fashion" },
   { name: "SWAY Maverick", url: "https://swaymaverick.com/", category: "Fashion · Brand experience", image: "assets/projects/swaymaverick.png", theme: "streetwear" },
@@ -23,13 +21,13 @@ const UI = {
     title: "Ahmed Mohy — Digital Products That Grow Businesses",
     subtitle: "Websites · Web Applications · Online Stores · Mobile Apps · Digital Marketing",
     lang: "AR",
-    workIntro: "A curated selection of real websites and digital experiences. Explore each live project directly."
+    workIntro: "Real live websites presented inside immersive browser previews. Open any project to enter the original site."
   },
   ar: {
     title: "أحمد محي — حلول رقمية تساعد نشاطك على النمو",
     subtitle: "مواقع إلكترونية · تطبيقات ويب · متاجر إلكترونية · تطبيقات موبايل · تسويق رقمي",
     lang: "EN",
-    workIntro: "مجموعة مختارة من المواقع والتجارب الرقمية الحقيقية. استكشف كل مشروع مباشرة."
+    workIntro: "مواقع حقيقية مباشرة معروضة داخل معاينات تفاعلية. افتح أي مشروع للدخول إلى الموقع الأصلي."
   }
 };
 
@@ -44,6 +42,25 @@ function setLang(lang){
   const workIntro = document.getElementById("workIntro");
   if(workIntro) workIntro.textContent = UI[lang].workIntro;
   if(langBtn) langBtn.textContent = UI[lang].lang;
+}
+
+function createGlobal3D(){
+  if(document.querySelector(".global-3d-world")) return;
+  const world = document.createElement("div");
+  world.className = "global-3d-world";
+  world.setAttribute("aria-hidden", "true");
+  world.innerHTML = `
+    <div class="global-grid"></div>
+    <div class="global-orb global-orb-a"></div>
+    <div class="global-orb global-orb-b"></div>
+    <div class="global-ring global-ring-a"></div>
+    <div class="global-ring global-ring-b"></div>
+    <div class="global-cube global-cube-a"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="global-cube global-cube-b"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="global-wire global-wire-a"></div>
+    <div class="global-wire global-wire-b"></div>
+  `;
+  document.body.prepend(world);
 }
 
 function create3DScene(theme, index){
@@ -79,6 +96,29 @@ function create3DScene(theme, index){
   return scene;
 }
 
+function createLivePreview(project, index){
+  const wrap = document.createElement("div");
+  wrap.className = "live-preview-wrap";
+  wrap.setAttribute("aria-label", `${project.name} live website preview`);
+
+  const iframe = document.createElement("iframe");
+  iframe.className = "live-site-frame";
+  iframe.src = project.url;
+  iframe.title = `${project.name} live website`;
+  iframe.loading = index < 2 ? "eager" : "lazy";
+  iframe.referrerPolicy = "strict-origin-when-cross-origin";
+  iframe.setAttribute("allow", "fullscreen");
+  iframe.addEventListener("load", () => wrap.classList.add("is-loaded"), { once: true });
+
+  const badge = document.createElement("span");
+  badge.className = "live-preview-badge";
+  badge.textContent = "LIVE · ORIGINAL SITE";
+
+  wrap.appendChild(iframe);
+  wrap.appendChild(badge);
+  return wrap;
+}
+
 function normalizeProject(card, project, index){
   card.dataset.category = project.category;
   card.dataset.liveUrl = project.url;
@@ -89,18 +129,17 @@ function normalizeProject(card, project, index){
 
   const image = card.querySelector(".work-image");
   const img = image?.querySelector("img");
-  image?.querySelectorAll("iframe.live-site-frame").forEach(frame => frame.remove());
-  image?.querySelectorAll(".project-3d-scene").forEach(scene => scene.remove());
-  image?.classList.remove("has-live-site");
+  image?.querySelectorAll("iframe.live-site-frame, .live-preview-wrap, .project-3d-scene").forEach(node => node.remove());
 
   if(image){
     image.prepend(create3DScene(project.theme, index));
+    image.appendChild(createLivePreview(project, index));
     image.classList.add("has-3d-scene");
   }
 
   if(img){
     img.src = project.image;
-    img.alt = `${project.name} project preview`;
+    img.alt = `${project.name} live website fallback preview`;
     img.loading = index < 2 ? "eager" : "lazy";
   }
 
@@ -111,7 +150,6 @@ function normalizeProject(card, project, index){
   const browserLabel = card.querySelector(".browser-bar small");
   if(browserLabel) browserLabel.textContent = hostname;
 
-  // Remove the old LIVE HOMEPAGE overlay. The screenshot is now visual-only.
   card.querySelectorAll(".live-preview").forEach(button => button.remove());
 
   const info = card.querySelector(".work-info");
@@ -142,8 +180,6 @@ function normalizeProject(card, project, index){
 
     const title = info.querySelector("h3");
     if(title) title.textContent = project.name;
-
-    // Remove the previous project description to keep the cards visual and focused.
     info.querySelectorAll("p").forEach(description => description.remove());
   }
 
@@ -194,11 +230,10 @@ document.addEventListener("keydown", event => {
   if(event.key === "Escape" && previewModal?.classList.contains("is-open")) closePreview();
 });
 
+createGlobal3D();
 buildWorkLayout();
 setLang(getLang());
 
-// Conversion policy: normal portfolio CTAs go to WhatsApp.
-// Project ENTER WEBSITE links are intentionally exempt so visitors can open the real sites.
 document.addEventListener("click", event => {
   const target = event.target.closest("a, button");
   if(!target) return;
