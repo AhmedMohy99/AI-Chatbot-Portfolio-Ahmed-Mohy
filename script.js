@@ -6,71 +6,19 @@ const previewUrl = document.getElementById("previewUrl");
 const previewExternal = document.getElementById("previewExternal");
 const previewClose = document.getElementById("previewClose");
 
+const WHATSAPP_URL = "https://wa.me/201016286261";
+
 // Canonical WORK list shared with the main Ahmed Mohy portfolio.
 const PROJECTS = [
-  {
-    name: "Saffa Fashion",
-    url: "https://www.saffafashion.shop/",
-    category: "Fashion · Web",
-    description: "A fashion storefront built product-first, with responsive galleries and a cart experience designed for mobile shoppers.",
-    image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://www.saffafashion.shop/"
-  },
-  {
-    name: "SWAY Maverick",
-    url: "https://swaymaverick.com/",
-    category: "Fashion · Brand experience",
-    description: "A fashion commerce experience that ties brand storytelling directly to the product grid, so browsing feels like reading a lookbook.",
-    image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://swaymaverick.com/"
-  },
-  {
-    name: "UCYPTA",
-    url: "https://ucypta-fs.myshopify.com/",
-    category: "Shopify · Storefront",
-    description: "A Shopify storefront foundation with product-led navigation and a streamlined shopping interface.",
-    image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://ucypta-fs.myshopify.com/"
-  },
-  {
-    name: "Elprof10",
-    url: "https://elprof10.com/",
-    category: "Digital experience",
-    description: "Digital product and web experience work focused on usability, presentation and a modern responsive interface.",
-    image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://elprof10.com/"
-  },
-  {
-    name: "Royal Watch",
-    url: "http://royalwatch.art/",
-    category: "Luxury · Product presentation",
-    description: "Luxury watch presentation and commerce, built around premium product storytelling and visual hierarchy.",
-    image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/http://royalwatch.art/"
-  },
-  {
-    name: "We Wave Agency",
-    url: "https://we-wave-agency.vercel.app/",
-    category: "Agency · Portfolio",
-    description: "A brand experience and agency portfolio designed to present work with a stronger visual hierarchy and a more confident digital identity.",
-    image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://we-wave-agency.vercel.app/"
-  },
-  {
-    name: "LARO Cosmetics",
-    url: "https://laro-cosmetics.com/",
-    category: "Beauty · Shopify",
-    description: "A beauty commerce storefront rebuilt around product clarity — cleaner navigation, faster browsing and a shopping journey that respects the product.",
-    image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://laro-cosmetics.com/"
-  },
-  {
-    name: "IRIS Contemporary Womenswear",
-    url: "https://iriseg.net/",
-    category: "Luxury fashion · E-commerce",
-    description: "A quiet-luxury womenswear experience reshaped around premium presentation, clearer navigation and a stronger path to checkout.",
-    image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://iriseg.net/"
-  },
-  {
-    name: "ZREX",
-    url: "https://zrexeg.com/",
-    category: "Fashion · Commerce",
-    description: "Fashion commerce and product experience work focused on a clear path from discovery to purchase.",
-    image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://zrexeg.com/"
-  }
+  { name: "Saffa Fashion", url: "https://www.saffafashion.shop/", category: "Fashion · Web", description: "A fashion storefront built product-first, with responsive galleries and a cart experience designed for mobile shoppers.", image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://www.saffafashion.shop/" },
+  { name: "SWAY Maverick", url: "https://swaymaverick.com/", category: "Fashion · Brand experience", description: "A fashion commerce experience that ties brand storytelling directly to the product grid, so browsing feels like reading a lookbook.", image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://swaymaverick.com/" },
+  { name: "UCYPTA", url: "https://ucypta-fs.myshopify.com/", category: "Shopify · Storefront", description: "A Shopify storefront foundation with product-led navigation and a streamlined shopping interface.", image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://ucypta-fs.myshopify.com/" },
+  { name: "Elprof10", url: "https://elprof10.com/", category: "Digital experience", description: "Digital product and web experience work focused on usability, presentation and a modern responsive interface.", image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://elprof10.com/" },
+  { name: "Royal Watch", url: "http://royalwatch.art/", category: "Luxury · Product presentation", description: "Luxury watch presentation and commerce, built around premium product storytelling and visual hierarchy.", image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/http://royalwatch.art/" },
+  { name: "We Wave Agency", url: "https://we-wave-agency.vercel.app/", category: "Agency · Portfolio", description: "A brand experience and agency portfolio designed to present work with a stronger visual hierarchy and a more confident digital identity.", image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://we-wave-agency.vercel.app/" },
+  { name: "LARO Cosmetics", url: "https://laro-cosmetics.com/", category: "Beauty · Shopify", description: "A beauty commerce storefront rebuilt around product clarity — cleaner navigation, faster browsing and a shopping journey that respects the product.", image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://laro-cosmetics.com/" },
+  { name: "IRIS Contemporary Womenswear", url: "https://iriseg.net/", category: "Luxury fashion · E-commerce", description: "A quiet-luxury womenswear experience reshaped around premium presentation, clearer navigation and a stronger path to checkout.", image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://iriseg.net/" },
+  { name: "ZREX", url: "https://zrexeg.com/", category: "Fashion · Commerce", description: "Fashion commerce and product experience work focused on a clear path from discovery to purchase.", image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://zrexeg.com/" }
 ];
 
 const UI = {
@@ -230,3 +178,17 @@ document.addEventListener("keydown", event => {
 
 buildWorkLayout();
 setLang(getLang());
+
+// Portfolio CTA policy: every link and button sends visitors directly to WhatsApp.
+// This keeps project, pricing, contact and social CTAs focused on one conversion path.
+document.addEventListener("click", event => {
+  const target = event.target.closest("a, button");
+  if(!target) return;
+  event.preventDefault();
+  event.stopImmediatePropagation();
+
+  const label = (target.textContent || target.getAttribute("aria-label") || "").trim().replace(/\s+/g, " ");
+  const message = label ? `Hello Ahmed, I clicked "${label}" on your portfolio and would like to discuss a project.` : "Hello Ahmed, I would like to discuss a project.";
+  const url = `${WHATSAPP_URL}?text=${encodeURIComponent(message)}`;
+  window.open(url, "_blank", "noopener,noreferrer");
+}, true);
