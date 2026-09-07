@@ -51,6 +51,11 @@ function load3DStyles(){
   link.href = "3d.css";
   link.dataset["3dStyles"] = "true";
   document.head.appendChild(link);
+  const previewStyles = document.createElement("link");
+  previewStyles.rel = "stylesheet";
+  previewStyles.href = "live-preview.css";
+  previewStyles.dataset["livePreviewStyles"] = "true";
+  document.head.appendChild(previewStyles);
 }
 
 function createGlobal3D(){
@@ -111,7 +116,7 @@ function createLivePreview(project, index){
   wrap.setAttribute("aria-label", `${project.name} live website preview`);
 
   const iframe = document.createElement("iframe");
-  iframe.className = "live-site-frame";
+  iframe.className = "live-site-embed";
   iframe.src = project.url;
   iframe.title = `${project.name} live website`;
   iframe.loading = index < 3 ? "eager" : "lazy";
@@ -153,7 +158,7 @@ function normalizeProject(card, project, index){
 
   const image = card.querySelector(".work-image");
   const img = image?.querySelector("img");
-  image?.querySelectorAll("iframe.live-site-frame, .live-preview-wrap, .project-3d-scene").forEach(node => node.remove());
+  image?.querySelectorAll("iframe.live-site-frame, iframe.live-site-embed, .live-preview-wrap, .project-3d-scene").forEach(node => node.remove());
 
   if(image){
     image.prepend(create3DScene(project.theme, index));
