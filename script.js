@@ -44,6 +44,15 @@ function setLang(lang){
   if(langBtn) langBtn.textContent = UI[lang].lang;
 }
 
+function load3DStyles(){
+  if(document.querySelector('link[data-3d-styles]')) return;
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = "3d.css";
+  link.dataset["3dStyles"] = "true";
+  document.head.appendChild(link);
+}
+
 function createGlobal3D(){
   if(document.querySelector(".global-3d-world")) return;
   const world = document.createElement("div");
@@ -108,7 +117,6 @@ function createLivePreview(project, index){
   iframe.loading = index < 2 ? "eager" : "lazy";
   iframe.referrerPolicy = "strict-origin-when-cross-origin";
   iframe.setAttribute("allow", "fullscreen");
-  iframe.addEventListener("load", () => wrap.classList.add("is-loaded"), { once: true });
 
   const badge = document.createElement("span");
   badge.className = "live-preview-badge";
@@ -230,6 +238,7 @@ document.addEventListener("keydown", event => {
   if(event.key === "Escape" && previewModal?.classList.contains("is-open")) closePreview();
 });
 
+load3DStyles();
 createGlobal3D();
 buildWorkLayout();
 setLang(getLang());
