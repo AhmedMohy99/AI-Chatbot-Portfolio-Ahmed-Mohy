@@ -5,10 +5,10 @@ const previewClose = document.getElementById("previewClose");
 const WHATSAPP_URL = "https://wa.me/201016286261";
 
 const PROJECTS = [
-  { name: "LARO Cosmetics", url: "https://laro-cosmetics.com/", category: "Beauty · Shopify", image: "assets/projects/laro.png", theme: "beauty", preview: "fallback" },
+  { name: "LARO Cosmetics", url: "https://laro-cosmetics.com/", category: "Beauty · Shopify", image: "assets/projects/laro.png", theme: "beauty" },
   { name: "Saffa Fashion", url: "https://www.saffafashion.shop/", category: "Fashion · E-commerce", image: "assets/projects/saffa.png", theme: "fashion" },
-  { name: "SWAY Maverick", url: "https://swaymaverick.com/", category: "Fashion · Brand experience", image: "assets/projects/swaymaverick.png", theme: "streetwear", preview: "fallback" },
-  { name: "Ucypta", url: "https://ucypta-fs.myshopify.com/", category: "E-commerce · Shopify", image: "assets/projects/ucypta.png", theme: "commerce", preview: "fallback" },
+  { name: "SWAY Maverick", url: "https://swaymaverick.com/", category: "Fashion · Brand experience", image: "assets/projects/swaymaverick.png", theme: "streetwear" },
+  { name: "Ucypta", url: "https://ucypta-fs.myshopify.com/", category: "E-commerce · Shopify", image: "assets/projects/ucypta.png", theme: "commerce" },
   { name: "Royal Watch", url: "https://royalwatch.art/en", category: "Luxury · E-commerce", image: "assets/projects/royalwatch.png", theme: "luxury" },
   { name: "ZREX", url: "https://zrexeg.com/", category: "Fashion · Commerce", image: "assets/projects/zrexeg.png", theme: "commerce" },
   { name: "Elprof10", url: "https://elprof10.com/", category: "Digital experience", image: "assets/projects/elprof10.png", theme: "digital" },
@@ -107,38 +107,39 @@ function create3DScene(theme, index){
 
 function createLivePreview(project, index){
   const wrap = document.createElement("div");
-  wrap.className = `live-preview-wrap preview-${project.preview === "fallback" ? "fallback" : "live"}`;
-  wrap.setAttribute("aria-label", `${project.name} website preview`);
-
-  if(project.preview === "fallback"){
-    const previewImage = document.createElement("img");
-    previewImage.className = "preview-fallback-image";
-    previewImage.src = project.image;
-    previewImage.alt = `${project.name} website preview`;
-    previewImage.loading = index < 2 ? "eager" : "lazy";
-    wrap.appendChild(previewImage);
-
-    const overlay = document.createElement("div");
-    overlay.className = "preview-fallback-overlay";
-    overlay.innerHTML = `<span>LIVE SITE · OPEN WEBSITE</span>`;
-    wrap.appendChild(overlay);
-    return wrap;
-  }
+  wrap.className = "live-preview-wrap preview-live";
+  wrap.setAttribute("aria-label", `${project.name} live website preview`);
 
   const iframe = document.createElement("iframe");
   iframe.className = "live-site-frame";
   iframe.src = project.url;
   iframe.title = `${project.name} live website`;
-  iframe.loading = index < 2 ? "eager" : "lazy";
+  iframe.loading = index < 3 ? "eager" : "lazy";
   iframe.referrerPolicy = "strict-origin-when-cross-origin";
-  iframe.setAttribute("allow", "fullscreen");
+  iframe.setAttribute("allow", "fullscreen; autoplay; encrypted-media");
 
-  const badge = document.createElement("span");
-  badge.className = "live-preview-badge";
-  badge.textContent = "LIVE · ORIGINAL SITE";
+  const overlay = document.createElement("div");
+  overlay.className = "live-preview-overlay";
+  overlay.innerHTML = `<span>LIVE · ORIGINAL SITE</span><a href="${project.url}" target="_blank" rel="noopener noreferrer">OPEN WEBSITE ↗</a>`;
+
+  const fallback = document.createElement("div");
+  fallback.className = "live-preview-unavailable";
+  fallback.innerHTML = `<strong>${project.name}</strong><span>The live site cannot be embedded in this preview.</span><a href="${project.url}" target="_blank" rel="noopener noreferrer">OPEN LIVE WEBSITE ↗</a>`;
+
+  let loaded = false;
+  const markLoaded = () => {
+    loaded = true;
+    wrap.classList.add("preview-loaded");
+  };
+  iframe.addEventListener("load", markLoaded, { once: true });
+
+  window.setTimeout(() => {
+    if(!loaded) wrap.classList.add("preview-unavailable");
+  }, 9000);
 
   wrap.appendChild(iframe);
-  wrap.appendChild(badge);
+  wrap.appendChild(overlay);
+  wrap.appendChild(fallback);
   return wrap;
 }
 
@@ -164,6 +165,7 @@ function normalizeProject(card, project, index){
     img.src = project.image;
     img.alt = `${project.name} website preview`;
     img.loading = index < 2 ? "eager" : "lazy";
+    img.style.display = "none";
   }
 
   const hostname = (() => {
@@ -261,7 +263,7 @@ setLang(getLang());
 document.addEventListener("click", event => {
   const target = event.target.closest("a, button");
   if(!target) return;
-  if(target.matches(".project-link")) return;
+  if(target.matches(".project-link, .live-preview-overlay a, .live-preview-unavailable a")) return;
 
   event.preventDefault();
   event.stopImmediatePropagation();
