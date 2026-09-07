@@ -1,36 +1,35 @@
 const langBtn = document.getElementById("langBtn");
 const previewModal = document.getElementById("previewModal");
-const previewFrame = document.getElementById("previewFrame");
-const previewTitle = document.getElementById("previewTitle");
-const previewUrl = document.getElementById("previewUrl");
-const previewExternal = document.getElementById("previewExternal");
 const previewClose = document.getElementById("previewClose");
 
 const WHATSAPP_URL = "https://wa.me/201016286261";
 
-// Canonical WORK list shared with the main Ahmed Mohy portfolio.
+// Selected work: local screenshots are used for a clean, fast presentation.
+// Each project keeps its real live URL behind the ENTER WEBSITE CTA.
 const PROJECTS = [
-  { name: "Saffa Fashion", url: "https://www.saffafashion.shop/", category: "Fashion · Web", description: "A fashion storefront built product-first, with responsive galleries and a cart experience designed for mobile shoppers.", image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://www.saffafashion.shop/" },
-  { name: "SWAY Maverick", url: "https://swaymaverick.com/", category: "Fashion · Brand experience", description: "A fashion commerce experience that ties brand storytelling directly to the product grid, so browsing feels like reading a lookbook.", image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://swaymaverick.com/" },
-  { name: "UCYPTA", url: "https://ucypta-fs.myshopify.com/", category: "Shopify · Storefront", description: "A Shopify storefront foundation with product-led navigation and a streamlined shopping interface.", image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://ucypta-fs.myshopify.com/" },
-  { name: "Elprof10", url: "https://elprof10.com/", category: "Digital experience", description: "Digital product and web experience work focused on usability, presentation and a modern responsive interface.", image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://elprof10.com/" },
-  { name: "Royal Watch", url: "http://royalwatch.art/", category: "Luxury · Product presentation", description: "Luxury watch presentation and commerce, built around premium product storytelling and visual hierarchy.", image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/http://royalwatch.art/" },
-  { name: "We Wave Agency", url: "https://we-wave-agency.vercel.app/", category: "Agency · Portfolio", description: "A brand experience and agency portfolio designed to present work with a stronger visual hierarchy and a more confident digital identity.", image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://we-wave-agency.vercel.app/" },
-  { name: "LARO Cosmetics", url: "https://laro-cosmetics.com/", category: "Beauty · Shopify", description: "A beauty commerce storefront rebuilt around product clarity — cleaner navigation, faster browsing and a shopping journey that respects the product.", image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://laro-cosmetics.com/" },
-  { name: "IRIS Contemporary Womenswear", url: "https://iriseg.net/", category: "Luxury fashion · E-commerce", description: "A quiet-luxury womenswear experience reshaped around premium presentation, clearer navigation and a stronger path to checkout.", image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://iriseg.net/" },
-  { name: "ZREX", url: "https://zrexeg.com/", category: "Fashion · Commerce", description: "Fashion commerce and product experience work focused on a clear path from discovery to purchase.", image: "https://image.thum.io/get/width/1200/crop/675/noanimate/maxAge/168/https://zrexeg.com/" }
+  { name: "Saffa Fashion", url: "https://www.saffafashion.shop/", category: "Fashion · Web", image: "assets/projects/saffa.png", theme: "fashion" },
+  { name: "SWAY Maverick", url: "https://swaymaverick.com/", category: "Fashion · Brand experience", image: "assets/projects/swaymaverick.png", theme: "streetwear" },
+  { name: "UCYPTA", url: "https://ucypta-fs.myshopify.com/", category: "Shopify · Storefront", image: "assets/projects/ucypta.png", theme: "commerce" },
+  { name: "Elprof10", url: "https://elprof10.com/", category: "Digital experience", image: "assets/projects/elprof10.png", theme: "digital" },
+  { name: "Royal Watch", url: "https://www.officialroyalwatch.com/", category: "Luxury · Product presentation", image: "assets/projects/royalwatch.png", theme: "luxury" },
+  { name: "We Wave Agency", url: "https://we-wave-agency.vercel.app/", category: "Agency · Portfolio", image: "assets/projects/we-wave-agency.png", theme: "agency" },
+  { name: "LARO Cosmetics", url: "https://laro-cosmetics.com/", category: "Beauty · Shopify", image: "assets/projects/laro.png", theme: "beauty" },
+  { name: "IRIS Contemporary Womenswear", url: "https://iriseg.net/", category: "Luxury fashion · E-commerce", image: "assets/projects/iris.jpg", theme: "iris" },
+  { name: "ZREX", url: "https://zrexeg.com/", category: "Fashion · Commerce", image: "assets/projects/zrexeg.png", theme: "commerce" }
 ];
 
 const UI = {
   en: {
     title: "Ahmed Mohy — Digital Products That Grow Businesses",
     subtitle: "Websites · Web Applications · Online Stores · Mobile Apps · Digital Marketing",
-    lang: "AR"
+    lang: "AR",
+    workIntro: "A curated selection of real websites and digital experiences. Explore each live project directly."
   },
   ar: {
     title: "أحمد محي — حلول رقمية تساعد نشاطك على النمو",
     subtitle: "مواقع إلكترونية · تطبيقات ويب · متاجر إلكترونية · تطبيقات موبايل · تسويق رقمي",
-    lang: "EN"
+    lang: "EN",
+    workIntro: "مجموعة مختارة من المواقع والتجارب الرقمية الحقيقية. استكشف كل مشروع مباشرة."
   }
 };
 
@@ -42,12 +41,48 @@ function setLang(lang){
   document.documentElement.lang = lang;
   document.getElementById("title").textContent = UI[lang].title;
   document.getElementById("subtitle").textContent = UI[lang].subtitle;
-  langBtn.textContent = UI[lang].lang;
+  const workIntro = document.getElementById("workIntro");
+  if(workIntro) workIntro.textContent = UI[lang].workIntro;
+  if(langBtn) langBtn.textContent = UI[lang].lang;
+}
+
+function create3DScene(theme, index){
+  const scene = document.createElement("div");
+  scene.className = `project-3d-scene theme-${theme}`;
+  scene.setAttribute("aria-hidden", "true");
+
+  const core = document.createElement("div");
+  core.className = "scene-core";
+  scene.appendChild(core);
+
+  const orbit = document.createElement("div");
+  orbit.className = "scene-orbit";
+  const orbitDot = document.createElement("i");
+  orbitDot.className = "scene-dot";
+  orbit.appendChild(orbitDot);
+  scene.appendChild(orbit);
+
+  const ring = document.createElement("div");
+  ring.className = "scene-ring";
+  scene.appendChild(ring);
+
+  const cube = document.createElement("div");
+  cube.className = "scene-cube";
+  cube.innerHTML = "<span></span><span></span><span></span><span></span><span></span><span></span>";
+  scene.appendChild(cube);
+
+  const label = document.createElement("div");
+  label.className = "scene-label";
+  label.textContent = String(index + 1).padStart(2, "0");
+  scene.appendChild(label);
+
+  return scene;
 }
 
 function normalizeProject(card, project, index){
   card.dataset.category = project.category;
   card.dataset.liveUrl = project.url;
+  card.dataset.theme = project.theme;
   card.classList.remove("work-card-large", "featured-project");
   card.classList.add("work-card-unified");
   card.style.gridColumn = "auto";
@@ -55,11 +90,17 @@ function normalizeProject(card, project, index){
   const image = card.querySelector(".work-image");
   const img = image?.querySelector("img");
   image?.querySelectorAll("iframe.live-site-frame").forEach(frame => frame.remove());
+  image?.querySelectorAll(".project-3d-scene").forEach(scene => scene.remove());
   image?.classList.remove("has-live-site");
-  img?.classList.remove("preview-fallback");
+
+  if(image){
+    image.prepend(create3DScene(project.theme, index));
+    image.classList.add("has-3d-scene");
+  }
+
   if(img){
     img.src = project.image;
-    img.alt = `Live homepage preview of ${project.name}`;
+    img.alt = `${project.name} project preview`;
     img.loading = index < 2 ? "eager" : "lazy";
   }
 
@@ -69,6 +110,9 @@ function normalizeProject(card, project, index){
   })();
   const browserLabel = card.querySelector(".browser-bar small");
   if(browserLabel) browserLabel.textContent = hostname;
+
+  // Remove the old LIVE HOMEPAGE overlay. The screenshot is now visual-only.
+  card.querySelectorAll(".live-preview").forEach(button => button.remove());
 
   const info = card.querySelector(".work-info");
   if(info){
@@ -93,17 +137,14 @@ function normalizeProject(card, project, index){
     link.href = project.url;
     link.target = "_blank";
     link.rel = "noopener noreferrer";
-    link.textContent = "View Website ↗";
+    link.textContent = "ENTER WEBSITE ↗";
+    link.setAttribute("aria-label", `Enter ${project.name} website`);
 
     const title = info.querySelector("h3");
     if(title) title.textContent = project.name;
 
-    let description = info.querySelector("p");
-    if(!description){
-      description = document.createElement("p");
-      info.appendChild(description);
-    }
-    description.textContent = project.description;
+    // Remove the previous project description to keep the cards visual and focused.
+    info.querySelectorAll("p").forEach(description => description.remove());
   }
 
   let number = card.querySelector(".work-number");
@@ -137,53 +178,32 @@ function buildWorkLayout(){
   });
 
   document.querySelectorAll(".archive-heading, .archive-grid").forEach(node => node.remove());
-
-  document.querySelectorAll(".live-preview").forEach(button => {
-    button.addEventListener("click", event => {
-      event.preventDefault();
-      event.stopPropagation();
-      openPreview(button.closest(".work-card"));
-    });
-  });
 }
 
 function closePreview(){
+  if(!previewModal) return;
   previewModal.classList.remove("is-open");
   previewModal.setAttribute("aria-hidden", "true");
   document.body.style.overflow = "";
-  previewFrame.src = "about:blank";
-}
-
-function openPreview(card){
-  const name = card.querySelector("h3")?.textContent?.trim() || "Project Preview";
-  const project = PROJECTS.find(item => item.name.toLowerCase() === name.toLowerCase());
-  const url = project?.url || card.dataset.liveUrl;
-  if(!url) return;
-
-  previewTitle.textContent = name;
-  previewUrl.textContent = new URL(url).hostname;
-  previewExternal.href = url;
-  previewFrame.src = url;
-  previewModal.classList.add("is-open");
-  previewModal.setAttribute("aria-hidden", "false");
-  document.body.style.overflow = "hidden";
 }
 
 langBtn?.addEventListener("click", () => setLang(getLang() === "en" ? "ar" : "en"));
 previewClose?.addEventListener("click", closePreview);
 previewModal?.querySelector("[data-close-preview]")?.addEventListener("click", closePreview);
 document.addEventListener("keydown", event => {
-  if(event.key === "Escape" && previewModal.classList.contains("is-open")) closePreview();
+  if(event.key === "Escape" && previewModal?.classList.contains("is-open")) closePreview();
 });
 
 buildWorkLayout();
 setLang(getLang());
 
-// Portfolio CTA policy: every link and button sends visitors directly to WhatsApp.
-// This keeps project, pricing, contact and social CTAs focused on one conversion path.
+// Conversion policy: normal portfolio CTAs go to WhatsApp.
+// Project ENTER WEBSITE links are intentionally exempt so visitors can open the real sites.
 document.addEventListener("click", event => {
   const target = event.target.closest("a, button");
   if(!target) return;
+  if(target.matches(".project-link")) return;
+
   event.preventDefault();
   event.stopImmediatePropagation();
 
