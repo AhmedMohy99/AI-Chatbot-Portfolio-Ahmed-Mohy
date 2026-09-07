@@ -81,32 +81,26 @@ function create3DScene(theme, index){
   const scene = document.createElement("div");
   scene.className = `project-3d-scene theme-${theme}`;
   scene.setAttribute("aria-hidden", "true");
-
   const core = document.createElement("div");
   core.className = "scene-core";
   scene.appendChild(core);
-
   const orbit = document.createElement("div");
   orbit.className = "scene-orbit";
   const orbitDot = document.createElement("i");
   orbitDot.className = "scene-dot";
   orbit.appendChild(orbitDot);
   scene.appendChild(orbit);
-
   const ring = document.createElement("div");
   ring.className = "scene-ring";
   scene.appendChild(ring);
-
   const cube = document.createElement("div");
   cube.className = "scene-cube";
   cube.innerHTML = "<span></span><span></span><span></span><span></span><span></span><span></span>";
   scene.appendChild(cube);
-
   const label = document.createElement("div");
   label.className = "scene-label";
   label.textContent = String(index + 1).padStart(2, "0");
   scene.appendChild(label);
-
   return scene;
 }
 
@@ -115,8 +109,6 @@ function createLivePreview(project, index){
   wrap.className = "live-preview-wrap preview-live";
   wrap.setAttribute("aria-label", `${project.name} live website preview`);
 
-  // Hosted stores commonly block cross-origin iframe embedding with security headers.
-  // Use a current rendered website snapshot for the visual preview and keep the real URL for navigation.
   const snapshot = document.createElement("img");
   snapshot.className = "live-site-snapshot";
   snapshot.alt = `${project.name} current website preview`;
@@ -127,23 +119,32 @@ function createLivePreview(project, index){
 
   const overlay = document.createElement("div");
   overlay.className = "live-preview-overlay";
-  overlay.innerHTML = `<span>LIVE WEBSITE SNAPSHOT</span><a href="${project.url}" target="_blank" rel="noopener noreferrer">OPEN WEBSITE ↗</a>`;
+  const overlayLink = document.createElement("a");
+  overlayLink.href = project.url;
+  overlayLink.target = "_blank";
+  overlayLink.rel = "noopener noreferrer";
+  overlayLink.textContent = "OPEN WEBSITE ↗";
+  const overlayLabel = document.createElement("span");
+  overlayLabel.textContent = "LIVE WEBSITE SNAPSHOT";
+  overlay.append(overlayLabel, overlayLink);
 
   const fallback = document.createElement("div");
   fallback.className = "live-preview-unavailable";
-  fallback.innerHTML = `<strong>${project.name}</strong><span>Preview image unavailable. The original website is still available.</span><a href="${project.url}" target="_blank" rel="noopener noreferrer">OPEN LIVE WEBSITE ↗</a>`;
+  const title = document.createElement("strong");
+  title.textContent = project.name;
+  const text = document.createElement("span");
+  text.textContent = "Preview image unavailable. The original website is still available.";
+  const fallbackLink = document.createElement("a");
+  fallbackLink.href = project.url;
+  fallbackLink.target = "_blank";
+  fallbackLink.rel = "noopener noreferrer";
+  fallbackLink.textContent = "OPEN LIVE WEBSITE ↗";
+  fallback.append(title, text, fallbackLink);
 
-  snapshot.addEventListener("load", () => {
-    wrap.classList.add("preview-loaded");
-  }, { once: true });
+  snapshot.addEventListener("load", () => wrap.classList.add("preview-loaded"), { once: true });
+  snapshot.addEventListener("error", () => wrap.classList.add("preview-unavailable"), { once: true });
 
-  snapshot.addEventListener("error", () => {
-    wrap.classList.add("preview-unavailable");
-  }, { once: true });
-
-  wrap.appendChild(snapshot);
-  wrap.appendChild(overlay);
-  wrap.appendChild(fallback);
+  wrap.append(snapshot, overlay, fallback);
   return wrap;
 }
 
@@ -191,7 +192,6 @@ function normalizeProject(card, project, index){
       if(label) topline.appendChild(label);
       info.prepend(topline);
     }
-
     const label = topline.querySelector("span");
     if(label) label.textContent = `${String(index + 1).padStart(2, "0")} · ${project.category}`;
 
@@ -219,29 +219,18 @@ function normalizeProject(card, project, index){
     card.querySelector(".browser-frame")?.appendChild(number);
   }
   number.textContent = String(index + 1).padStart(2, "0");
-
   return card;
 }
 
 function buildWorkLayout(){
   const grid = document.querySelector(".work-grid");
   if(!grid) return;
-
-  const cardsByName = new Map(
-    [...grid.querySelectorAll(".work-card")].map(card => [
-      card.querySelector("h3")?.textContent?.trim(),
-      card
-    ])
-  );
-
+  const cardsByName = new Map([...grid.querySelectorAll(".work-card")].map(card => [card.querySelector("h3")?.textContent?.trim(), card]));
   grid.innerHTML = "";
   PROJECTS.forEach((project, index) => {
-    const card = cardsByName.get(project.name) || [...cardsByName.entries()].find(([name]) =>
-      name?.toLowerCase() === project.name.toLowerCase()
-    )?.[1];
+    const card = cardsByName.get(project.name) || [...cardsByName.entries()].find(([name]) => name?.toLowerCase() === project.name.toLowerCase())?.[1];
     if(card) grid.appendChild(normalizeProject(card, project, index));
   });
-
   document.querySelectorAll(".archive-heading, .archive-grid").forEach(node => node.remove());
 }
 
@@ -268,12 +257,9 @@ document.addEventListener("click", event => {
   const target = event.target.closest("a, button");
   if(!target) return;
   if(target.matches(".project-link, .live-preview-overlay a, .live-preview-unavailable a")) return;
-
   event.preventDefault();
   event.stopImmediatePropagation();
-
   const label = (target.textContent || target.getAttribute("aria-label") || "").trim().replace(/\s+/g, " ");
   const message = label ? `Hello Ahmed, I clicked "${label}" on your portfolio and would like to discuss a project.` : "Hello Ahmed, I would like to discuss a project.";
-  const url = `${WHATSAPP_URL}?text=${encodeURIComponent(message)}`;
-  window.open(url, "_blank", "noopener,noreferrer");
+  window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
 }, true);
