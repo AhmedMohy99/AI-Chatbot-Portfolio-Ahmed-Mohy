@@ -21,13 +21,13 @@ const UI = {
     title: "Ahmed Mohy — Digital Products That Grow Businesses",
     subtitle: "Websites · Web Applications · Online Stores · Mobile Apps · Digital Marketing",
     lang: "AR",
-    workIntro: "Real live websites presented inside immersive browser previews. Open any project to enter the original site."
+    workIntro: "Real live websites presented as current website snapshots. Open any project to enter the original site."
   },
   ar: {
     title: "أحمد محي — حلول رقمية تساعد نشاطك على النمو",
     subtitle: "مواقع إلكترونية · تطبيقات ويب · متاجر إلكترونية · تطبيقات موبايل · تسويق رقمي",
     lang: "EN",
-    workIntro: "مواقع حقيقية مباشرة معروضة داخل معاينات تفاعلية. افتح أي مشروع للدخول إلى الموقع الأصلي."
+    workIntro: "لقطات محدثة من المواقع الحقيقية. افتح أي مشروع للدخول إلى الموقع الأصلي."
   }
 };
 
@@ -115,34 +115,33 @@ function createLivePreview(project, index){
   wrap.className = "live-preview-wrap preview-live";
   wrap.setAttribute("aria-label", `${project.name} live website preview`);
 
-  const iframe = document.createElement("iframe");
-  iframe.className = "live-site-embed";
-  iframe.src = project.url;
-  iframe.title = `${project.name} live website`;
-  iframe.loading = index < 3 ? "eager" : "lazy";
-  iframe.referrerPolicy = "strict-origin-when-cross-origin";
-  iframe.setAttribute("allow", "fullscreen; autoplay; encrypted-media");
+  // Hosted stores commonly block cross-origin iframe embedding with security headers.
+  // Use a current rendered website snapshot for the visual preview and keep the real URL for navigation.
+  const snapshot = document.createElement("img");
+  snapshot.className = "live-site-snapshot";
+  snapshot.alt = `${project.name} current website preview`;
+  snapshot.loading = index < 3 ? "eager" : "lazy";
+  snapshot.decoding = "async";
+  snapshot.referrerPolicy = "no-referrer";
+  snapshot.src = `https://s.wordpress.com/mshots/v1/${encodeURIComponent(project.url)}?w=1400`;
 
   const overlay = document.createElement("div");
   overlay.className = "live-preview-overlay";
-  overlay.innerHTML = `<span>LIVE · ORIGINAL SITE</span><a href="${project.url}" target="_blank" rel="noopener noreferrer">OPEN WEBSITE ↗</a>`;
+  overlay.innerHTML = `<span>LIVE WEBSITE SNAPSHOT</span><a href="${project.url}" target="_blank" rel="noopener noreferrer">OPEN WEBSITE ↗</a>`;
 
   const fallback = document.createElement("div");
   fallback.className = "live-preview-unavailable";
-  fallback.innerHTML = `<strong>${project.name}</strong><span>The live site cannot be embedded in this preview.</span><a href="${project.url}" target="_blank" rel="noopener noreferrer">OPEN LIVE WEBSITE ↗</a>`;
+  fallback.innerHTML = `<strong>${project.name}</strong><span>Preview image unavailable. The original website is still available.</span><a href="${project.url}" target="_blank" rel="noopener noreferrer">OPEN LIVE WEBSITE ↗</a>`;
 
-  let loaded = false;
-  const markLoaded = () => {
-    loaded = true;
+  snapshot.addEventListener("load", () => {
     wrap.classList.add("preview-loaded");
-  };
-  iframe.addEventListener("load", markLoaded, { once: true });
+  }, { once: true });
 
-  window.setTimeout(() => {
-    if(!loaded) wrap.classList.add("preview-unavailable");
-  }, 9000);
+  snapshot.addEventListener("error", () => {
+    wrap.classList.add("preview-unavailable");
+  }, { once: true });
 
-  wrap.appendChild(iframe);
+  wrap.appendChild(snapshot);
   wrap.appendChild(overlay);
   wrap.appendChild(fallback);
   return wrap;
@@ -158,7 +157,7 @@ function normalizeProject(card, project, index){
 
   const image = card.querySelector(".work-image");
   const img = image?.querySelector("img");
-  image?.querySelectorAll("iframe.live-site-frame, iframe.live-site-embed, .live-preview-wrap, .project-3d-scene").forEach(node => node.remove());
+  image?.querySelectorAll("iframe.live-site-frame, iframe.live-site-embed, img.live-site-snapshot, .live-preview-wrap, .project-3d-scene").forEach(node => node.remove());
 
   if(image){
     image.prepend(create3DScene(project.theme, index));
