@@ -1,279 +1,80 @@
 const langBtn = document.getElementById("langBtn");
 const previewModal = document.getElementById("previewModal");
 const previewClose = document.getElementById("previewClose");
-
 const WHATSAPP_URL = "https://wa.me/201016286261";
 
 const PROJECTS = [
-  { name: "LARO Cosmetics", url: "https://laro-cosmetics.com/", category: "Beauty · Shopify", image: "assets/projects/laro.png", theme: "beauty" },
-  { name: "Saffa Fashion", url: "https://www.saffafashion.shop/", category: "Fashion · E-commerce", image: "assets/projects/saffa.png", theme: "fashion" },
-  { name: "SWAY Maverick", url: "https://swaymaverick.com/", category: "Fashion · Brand experience", image: "assets/projects/swaymaverick.png", theme: "streetwear" },
-  { name: "Ucypta", url: "https://ucypta-fs.myshopify.com/", category: "E-commerce · Shopify", image: "assets/projects/ucypta.png", theme: "commerce" },
-  { name: "Royal Watch", url: "https://royalwatch.art/en", category: "Luxury · E-commerce", image: "assets/projects/royalwatch.png", theme: "luxury" },
-  { name: "ZREX", url: "https://zrexeg.com/", category: "Fashion · Commerce", image: "assets/projects/zrexeg.png", theme: "commerce" },
-  { name: "Elprof10", url: "https://elprof10.com/", category: "Digital experience", image: "assets/projects/elprof10.png", theme: "digital" },
-  { name: "We Wave Agency", url: "https://we-wave-agency.vercel.app/", category: "Agency · Portfolio", image: "assets/projects/we-wave-agency.png", theme: "agency" },
-  { name: "IRIS Contemporary Womenswear", url: "https://iriseg.net/", category: "Luxury fashion · E-commerce", image: "assets/projects/iris.jpg", theme: "iris" }
+  { name:"LARO Cosmetics",url:"https://laro-cosmetics.com/",category:"Beauty · Shopify",categoryAr:"جمال · Shopify",image:"assets/projects/laro.png",theme:"beauty" },
+  { name:"Saffa Fashion",url:"https://www.saffafashion.shop/",category:"Fashion · E-commerce",categoryAr:"أزياء · تجارة إلكترونية",image:"assets/projects/saffa.png",theme:"fashion" },
+  { name:"SWAY Maverick",url:"https://swaymaverick.com/",category:"Fashion · Brand experience",categoryAr:"أزياء · تجربة علامة تجارية",image:"assets/projects/swaymaverick.png",theme:"streetwear" },
+  { name:"Ucypta",url:"https://ucypta-fs.myshopify.com/",category:"E-commerce · Shopify",categoryAr:"تجارة إلكترونية · Shopify",image:"assets/projects/ucypta.png",theme:"commerce" },
+  { name:"Royal Watch",url:"https://royalwatch.art/en",category:"Luxury · E-commerce",categoryAr:"فخامة · تجارة إلكترونية",image:"assets/projects/royalwatch.png",theme:"luxury" },
+  { name:"ZREX",url:"https://zrexeg.com/",category:"Fashion · Commerce",categoryAr:"أزياء · تجارة",image:"assets/projects/zrexeg.png",theme:"commerce" },
+  { name:"Elprof10",url:"https://elprof10.com/",category:"Digital experience",categoryAr:"تجربة رقمية",image:"assets/projects/elprof10.png",theme:"digital" },
+  { name:"We Wave Agency",url:"https://we-wave-agency.vercel.app/",category:"Agency · Portfolio",categoryAr:"وكالة · معرض أعمال",image:"assets/projects/we-wave-agency.png",theme:"agency" },
+  { name:"IRIS Contemporary Womenswear",url:"https://iriseg.net/",category:"Luxury fashion · E-commerce",categoryAr:"أزياء فاخرة · تجارة إلكترونية",image:"assets/projects/iris.jpg",theme:"iris" }
 ];
 
 const UI = {
-  en: {
-    title: "Ahmed Mohy — Digital Products That Grow Businesses",
-    subtitle: "Websites · Web Applications · Online Stores · Mobile Apps · Digital Marketing",
-    lang: "AR",
-    workIntro: "Real live websites presented as current website snapshots. Open any project to enter the original site."
+  en:{
+    title:"Ahmed Mohy — Digital Products That Grow Businesses",subtitle:"Websites · Web Applications · Online Stores · Mobile Apps · Digital Marketing",lang:"AR",eyebrow:"FREELANCE DIGITAL DEVELOPMENT · EGYPT",email:"Email Me",whatsapp:"WhatsApp",linkedin:"LinkedIn",github:"GitHub",instagram:"Instagram",buildEyebrow:"WHAT I BUILD",buildTitle:"From idea to launch — websites, apps, stores and marketing.",buildText:"Freelance digital solutions for startups, small businesses and growing brands. Clear pricing, modern design, responsive development and launch support.",start:"Start Your Project",workEyebrow:"SELECTED WORK",workTitle:"Real projects. Real interfaces. Built for real businesses.",workIntro:"Real live websites presented as current website snapshots. Open any project to enter the original site.",enter:"ENTER WEBSITE ↗",liveSnapshot:"LIVE WEBSITE SNAPSHOT",openWebsite:"OPEN WEBSITE ↗",pricingEyebrow:"FREELANCER PRICING",pricingTitle:"Professional work without agency-level pricing.",pricingIntro:"Starting prices are designed to stay competitive for the Egyptian market while leaving room for custom features and higher-complexity projects.",from:"FROM",month:"/MONTH",mostPopular:"MOST POPULAR",business:"Business Website",businessText:"For companies, freelancers, professionals and service businesses.",store:"Online Store",storeText:"Professional Shopify or WooCommerce stores built for selling.",webapp:"Web Application",webappText:"Custom dashboards, booking systems, portals and business tools.",mobile:"Mobile App MVP",mobileText:"Lean Android & iOS MVPs for validating and launching an idea.",landing:"Campaign Landing Page",landingText:"Fast, focused pages for products, services and advertising campaigns.",marketing:"Digital Marketing",marketingText:"Practical marketing support focused on visibility, leads and sales.",buildWebsite:"Build My Website",buildStore:"Build My Store",buildApp:"Build My App",buildLanding:"Build My Landing Page",grow:"Grow My Business",features:[["Up to 5 pages","Responsive mobile design","Contact form + WhatsApp","Basic SEO setup","Deployment support"],["Store setup & customization","Products, collections & cart","Payment & shipping setup","Mobile-first UX","Basic SEO + analytics"],["Custom UI/UX","Frontend + backend","Database & authentication","API integrations","Deployment & testing"],["Cross-platform development","5–8 core screens","API/backend integration","Authentication & notifications","Store publishing support"],["Single high-converting page","Responsive design","CTA + WhatsApp/contact","Speed optimization","Analytics-ready setup"],["Social media content planning","Campaign setup & optimization","Meta Pixel / tracking setup","Performance reporting","Monthly growth recommendations"]],pricingNote:"Prices are starting rates. Hosting, domains, paid apps, advertising spend and third-party subscriptions are separate unless included in the proposal. Custom projects are quoted after requirements review.",processEyebrow:"HOW IT WORKS",processTitle:"Simple process. Clear communication. Professional delivery.",process:[["Discuss","We define your goals, features and budget."],["Build","Design and development with regular updates."],["Launch","Testing, deployment and handover."],["Grow","Marketing, improvements and ongoing support."]],ready:"READY TO BUILD?",contactTitle:"Tell me what you want to launch.",contactText:"Website, application, online store or marketing campaign — let's turn the idea into a working digital product.",quote:"Get a Free Quote",footer:"© 2026 Ahmed Mohy · Websites · Apps · E-commerce · Marketing ·"
   },
-  ar: {
-    title: "أحمد محي — حلول رقمية تساعد نشاطك على النمو",
-    subtitle: "مواقع إلكترونية · تطبيقات ويب · متاجر إلكترونية · تطبيقات موبايل · تسويق رقمي",
-    lang: "EN",
-    workIntro: "لقطات محدثة من المواقع الحقيقية. افتح أي مشروع للدخول إلى الموقع الأصلي."
+  ar:{
+    title:"أحمد محي — منتجات رقمية تساعد الأعمال على النمو",subtitle:"مواقع إلكترونية · تطبيقات ويب · متاجر إلكترونية · تطبيقات موبايل · تسويق رقمي",lang:"EN",eyebrow:"تطوير رقمي مستقل · مصر",email:"راسلني",whatsapp:"واتساب",linkedin:"لينكدإن",github:"جيت هب",instagram:"إنستجرام",buildEyebrow:"ماذا أبني",buildTitle:"من الفكرة إلى الإطلاق — مواقع وتطبيقات ومتاجر وتسويق.",buildText:"حلول رقمية مستقلة للشركات الناشئة والمشروعات الصغيرة والعلامات التجارية المتنامية. أسعار واضحة وتصميم حديث وتطوير متجاوب ودعم حتى الإطلاق.",start:"ابدأ مشروعك",workEyebrow:"أعمال مختارة",workTitle:"مشاريع حقيقية. واجهات حقيقية. مصممة لأعمال حقيقية.",workIntro:"مواقع حقيقية معروضة من خلال لقطات حديثة. افتح أي مشروع للدخول إلى الموقع الأصلي.",enter:"دخول إلى الموقع ↗",liveSnapshot:"لقطة مباشرة للموقع",openWebsite:"فتح الموقع ↗",pricingEyebrow:"أسعار العمل المستقل",pricingTitle:"عمل احترافي بدون أسعار وكالات مرتفعة.",pricingIntro:"الأسعار المبدئية مصممة لتكون مناسبة للسوق المصري مع إمكانية إضافة المزايا المخصصة والمشروعات الأعلى تعقيدًا.",from:"ابتداءً من",month:"/شهريًا",mostPopular:"الأكثر طلبًا",business:"موقع أعمال",businessText:"للشركات والمستقلين والمحترفين ومقدمي الخدمات.",store:"متجر إلكتروني",storeText:"متاجر Shopify أو WooCommerce احترافية مصممة للبيع.",webapp:"تطبيق ويب",webappText:"لوحات تحكم وأنظمة حجز وبوابات وأدوات أعمال مخصصة.",mobile:"نسخة أولية لتطبيق موبايل",mobileText:"تطبيقات Android وiOS عملية لاختبار الفكرة وإطلاقها.",landing:"صفحة هبوط لحملة",landingText:"صفحات سريعة ومركزة للمنتجات والخدمات والحملات الإعلانية.",marketing:"تسويق رقمي",marketingText:"دعم تسويقي عملي يركز على الظهور وجذب العملاء وزيادة المبيعات.",buildWebsite:"أنشئ موقعي",buildStore:"أنشئ متجري",buildApp:"أنشئ تطبيقي",buildLanding:"أنشئ صفحة الهبوط",grow:"طوّر نشاطي",features:[["حتى 5 صفحات","تصميم متجاوب للموبايل","نموذج تواصل + واتساب","إعداد SEO أساسي","دعم النشر"],["إعداد وتخصيص المتجر","المنتجات والمجموعات والسلة","إعداد الدفع والشحن","تجربة مهيأة للموبايل","SEO وتحليلات أساسية"],["تصميم UI/UX مخصص","واجهة أمامية وخلفية","قاعدة بيانات وتسجيل دخول","ربط واجهات API","اختبار ونشر"],["تطوير متعدد المنصات","5–8 شاشات أساسية","ربط API والخلفية","تسجيل الدخول والإشعارات","دعم النشر على المتاجر"],["صفحة واحدة عالية التحويل","تصميم متجاوب","دعوة لاتخاذ إجراء + واتساب","تحسين السرعة","إعداد جاهز للتحليلات"],["تخطيط محتوى السوشيال ميديا","إعداد وتحسين الحملات","إعداد Meta Pixel والتتبع","تقارير الأداء","توصيات نمو شهرية"]],pricingNote:"الأسعار مبدئية. الاستضافة والدومينات والتطبيقات المدفوعة والإنفاق الإعلاني والاشتراكات الخارجية منفصلة ما لم تُذكر ضمن العرض. يتم تحديد سعر المشروعات المخصصة بعد مراجعة المتطلبات.",processEyebrow:"كيف أعمل",processTitle:"عملية بسيطة. تواصل واضح. تسليم احترافي.",process:[["ناقش","نحدد أهدافك والمزايا والميزانية."],["ابنِ","تصميم وتطوير مع تحديثات منتظمة."],["أطلق","اختبار ونشر وتسليم المشروع."],["طوّر","تسويق وتحسينات ودعم مستمر."]],ready:"جاهز للبدء؟",contactTitle:"أخبرني بما تريد إطلاقه.",contactText:"موقع أو تطبيق أو متجر إلكتروني أو حملة تسويقية — نحول الفكرة إلى منتج رقمي يعمل.",quote:"احصل على عرض مجاني",footer:"© 2026 أحمد محي · مواقع · تطبيقات · تجارة إلكترونية · تسويق ·"
   }
 };
 
-function getLang(){ return localStorage.getItem("lang") || "en"; }
+function getLang(){return localStorage.getItem("lang")||"en";}
 
 function setLang(lang){
-  localStorage.setItem("lang", lang);
-  document.body.classList.toggle("rtl", lang === "ar");
-  document.documentElement.lang = lang;
-  document.getElementById("title").textContent = UI[lang].title;
-  document.getElementById("subtitle").textContent = UI[lang].subtitle;
-  const workIntro = document.getElementById("workIntro");
-  if(workIntro) workIntro.textContent = UI[lang].workIntro;
-  if(langBtn) langBtn.textContent = UI[lang].lang;
+  localStorage.setItem("lang",lang);
+  document.body.classList.toggle("rtl",lang==="ar");
+  document.documentElement.lang=lang;
+  document.documentElement.dir=lang==="ar"?"rtl":"ltr";
+  const title=document.getElementById("title"); if(title) title.textContent=UI[lang].title;
+  const subtitle=document.getElementById("subtitle"); if(subtitle) subtitle.textContent=UI[lang].subtitle;
+  const workIntro=document.getElementById("workIntro"); if(workIntro) workIntro.textContent=UI[lang].workIntro;
+  if(langBtn) langBtn.textContent=UI[lang].lang;
+  applyFullLanguage(lang);
+}
+
+function applyFullLanguage(lang){
+  const t=UI[lang];
+  const text=(selector,value)=>{const el=document.querySelector(selector);if(el)el.textContent=value;};
+  text(".header .eyebrow",t.eyebrow);
+  document.querySelectorAll(".buttons a.chip").forEach((el,i)=>{el.textContent;el.textContent=[t.email,t.whatsapp,t.linkedin,t.github,t.instagram][i]||el.textContent;});
+  text(".hero-card .eyebrow",t.buildEyebrow);text(".hero-card h2",t.buildTitle);text(".hero-card p",t.buildText);text(".hero-card .hero-cta",t.start);
+  text(".work .section-heading .eyebrow",t.workEyebrow);text("#workTitle",t.workTitle);text("#workIntro",t.workIntro);
+  text(".pricing .section-heading .eyebrow",t.pricingEyebrow);text("#pricingTitle",t.pricingTitle);text("#pricingIntro",t.pricingIntro);text("#pricingNote",t.pricingNote);
+  text(".process .eyebrow",t.processEyebrow);text(".process h2",t.processTitle);text(".contact-card .eyebrow",t.ready);text(".contact-card h2",t.contactTitle);text(".contact-card p",t.contactText);text(".contact-card .hero-cta",t.quote);
+
+  const titles=[t.business,t.store,t.webapp,t.mobile,t.landing,t.marketing],descriptions=[t.businessText,t.storeText,t.webappText,t.mobileText,t.landingText,t.marketingText],ctas=[t.buildWebsite,t.buildStore,t.buildApp,t.buildApp,t.buildLanding,t.grow];
+  document.querySelectorAll(".price-card").forEach((card,i)=>{
+    const h3=card.querySelector("h3");if(h3)h3.textContent=titles[i];const p=card.querySelector("p");if(p)p.textContent=descriptions[i];
+    card.querySelectorAll("li").forEach((li,j)=>{if(t.features[i]?.[j]){[...li.childNodes].forEach(n=>{if(n.nodeType===Node.TEXT_NODE)n.textContent=t.features[i][j];});}});
+    const cta=card.querySelector(".price-cta");if(cta)cta.textContent=ctas[i];const from=card.querySelector(".price span:first-child");if(from)from.textContent=t.from;const month=card.querySelector(".price span:last-child");if(i===5&&month)month.textContent=t.month;const popular=card.querySelector(".popular");if(popular)popular.textContent=t.mostPopular;
+  });
+  document.querySelectorAll(".process-grid > div").forEach((item,i)=>{const strong=item.querySelector("strong"),span=item.querySelector("span");if(strong)strong.textContent=t.process[i][0];if(span)span.textContent=t.process[i][1];});
+  document.querySelectorAll(".work-card").forEach((card,i)=>{
+    const project=PROJECTS[i];if(!project)return;const label=card.querySelector(".project-topline span");if(label)label.textContent=`${String(i+1).padStart(2,"0")} · ${lang==="ar"?project.categoryAr:project.category}`;
+    const link=card.querySelector(".project-link");if(link){link.textContent=t.enter;link.setAttribute("aria-label",`${t.enter.replace(" ↗","")} ${project.name}`);}
+    const preview=card.querySelector(".live-preview-wrap");if(preview){const s=preview.querySelector(".live-preview-overlay span"),ol=preview.querySelector(".live-preview-overlay a"),fl=preview.querySelector(".live-preview-unavailable a"),fs=preview.querySelector(".live-preview-unavailable span");if(s)s.textContent=t.liveSnapshot;if(ol)ol.textContent=t.openWebsite;if(fl)fl.textContent=t.openWebsite;if(fs)fs.textContent=lang==="ar"?"تعذر تحميل صورة المعاينة. الموقع الأصلي ما زال متاحًا.":"Preview image unavailable. The original website is still available.";preview.setAttribute("aria-label",`${project.name} ${lang==="ar"?"معاينة الموقع":"live website preview"}`);}
+  });
+  const footer=document.querySelector(".footer");if(footer){const email=footer.querySelector("a");footer.textContent=t.footer+" ";if(email)footer.appendChild(email);}
 }
 
 function load3DStyles(){
-  if(document.querySelector('link[data-3d-styles]')) return;
-  const link = document.createElement("link");
-  link.rel = "stylesheet";
-  link.href = "3d.css";
-  link.dataset["3dStyles"] = "true";
-  document.head.appendChild(link);
-  const previewStyles = document.createElement("link");
-  previewStyles.rel = "stylesheet";
-  previewStyles.href = "live-preview.css";
-  previewStyles.dataset["livePreviewStyles"] = "true";
-  document.head.appendChild(previewStyles);
+  if(!document.querySelector('link[data-3d-styles]')){const link=document.createElement("link");link.rel="stylesheet";link.href="3d.css";link.dataset["3dStyles"]="true";document.head.appendChild(link);}
+  if(!document.querySelector('link[data-live-preview-styles]')){const link=document.createElement("link");link.rel="stylesheet";link.href="live-preview.css";link.dataset["livePreviewStyles"]="true";document.head.appendChild(link);}
+  if(!document.querySelector('style[data-rtl-styles]')){const style=document.createElement("style");style.dataset.rtlStyles="true";style.textContent=`html[dir="rtl"] body{text-align:right}html[dir="rtl"] .header h1,html[dir="rtl"] .header p,html[dir="rtl"] .hero-card h2,html[dir="rtl"] .hero-card p,html[dir="rtl"] .section-heading h2,html[dir="rtl"] .section-heading p,html[dir="rtl"] .process h2,html[dir="rtl"] .contact-card h2,html[dir="rtl"] .contact-card p{letter-spacing:normal}html[dir="rtl"] .buttons{direction:rtl}html[dir="rtl"] .section-heading,html[dir="rtl"] .hero-card,html[dir="rtl"] .contact-card{direction:rtl}html[dir="rtl"] .project-topline{direction:rtl}html[dir="rtl"] .work-number{left:auto;right:14px}html[dir="rtl"] .popular{right:auto;left:14px}html[dir="rtl"] .price-card li:before{margin-right:0;margin-left:7px}html[dir="rtl"] .price span{margin-right:0;margin-left:4px}html[dir="rtl"] .footer{text-align:center}`;document.head.appendChild(style);}
 }
 
-function createGlobal3D(){
-  if(document.querySelector(".global-3d-world")) return;
-  const world = document.createElement("div");
-  world.className = "global-3d-world";
-  world.setAttribute("aria-hidden", "true");
-  world.innerHTML = `
-    <div class="global-grid"></div>
-    <div class="global-orb global-orb-a"></div>
-    <div class="global-orb global-orb-b"></div>
-    <div class="global-ring global-ring-a"></div>
-    <div class="global-ring global-ring-b"></div>
-    <div class="global-cube global-cube-a"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-    <div class="global-cube global-cube-b"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-    <div class="global-wire global-wire-a"></div>
-    <div class="global-wire global-wire-b"></div>
-  `;
-  document.body.prepend(world);
-}
-
-function create3DScene(theme, index){
-  const scene = document.createElement("div");
-  scene.className = `project-3d-scene theme-${theme}`;
-  scene.setAttribute("aria-hidden", "true");
-
-  const core = document.createElement("div");
-  core.className = "scene-core";
-  scene.appendChild(core);
-
-  const orbit = document.createElement("div");
-  orbit.className = "scene-orbit";
-  const orbitDot = document.createElement("i");
-  orbitDot.className = "scene-dot";
-  orbit.appendChild(orbitDot);
-  scene.appendChild(orbit);
-
-  const ring = document.createElement("div");
-  ring.className = "scene-ring";
-  scene.appendChild(ring);
-
-  const cube = document.createElement("div");
-  cube.className = "scene-cube";
-  cube.innerHTML = "<span></span><span></span><span></span><span></span><span></span><span></span>";
-  scene.appendChild(cube);
-
-  const label = document.createElement("div");
-  label.className = "scene-label";
-  label.textContent = String(index + 1).padStart(2, "0");
-  scene.appendChild(label);
-
-  return scene;
-}
-
-function createLivePreview(project, index){
-  const wrap = document.createElement("div");
-  wrap.className = "live-preview-wrap preview-live";
-  wrap.setAttribute("aria-label", `${project.name} live website preview`);
-
-  // Hosted stores commonly block cross-origin iframe embedding with security headers.
-  // Use a current rendered website snapshot for the visual preview and keep the real URL for navigation.
-  const snapshot = document.createElement("img");
-  snapshot.className = "live-site-snapshot";
-  snapshot.alt = `${project.name} current website preview`;
-  snapshot.loading = index < 3 ? "eager" : "lazy";
-  snapshot.decoding = "async";
-  snapshot.referrerPolicy = "no-referrer";
-  snapshot.src = `https://s.wordpress.com/mshots/v1/${encodeURIComponent(project.url)}?w=1400`;
-
-  const overlay = document.createElement("div");
-  overlay.className = "live-preview-overlay";
-  overlay.innerHTML = `<span>LIVE WEBSITE SNAPSHOT</span><a href="${project.url}" target="_blank" rel="noopener noreferrer">OPEN WEBSITE ↗</a>`;
-
-  const fallback = document.createElement("div");
-  fallback.className = "live-preview-unavailable";
-  fallback.innerHTML = `<strong>${project.name}</strong><span>Preview image unavailable. The original website is still available.</span><a href="${project.url}" target="_blank" rel="noopener noreferrer">OPEN LIVE WEBSITE ↗</a>`;
-
-  snapshot.addEventListener("load", () => {
-    wrap.classList.add("preview-loaded");
-  }, { once: true });
-
-  snapshot.addEventListener("error", () => {
-    wrap.classList.add("preview-unavailable");
-  }, { once: true });
-
-  wrap.appendChild(snapshot);
-  wrap.appendChild(overlay);
-  wrap.appendChild(fallback);
-  return wrap;
-}
-
-function normalizeProject(card, project, index){
-  card.dataset.category = project.category;
-  card.dataset.liveUrl = project.url;
-  card.dataset.theme = project.theme;
-  card.classList.remove("work-card-large", "featured-project");
-  card.classList.add("work-card-unified");
-  card.style.gridColumn = "auto";
-
-  const image = card.querySelector(".work-image");
-  const img = image?.querySelector("img");
-  image?.querySelectorAll("iframe.live-site-frame, iframe.live-site-embed, img.live-site-snapshot, .live-preview-wrap, .project-3d-scene").forEach(node => node.remove());
-
-  if(image){
-    image.prepend(create3DScene(project.theme, index));
-    image.appendChild(createLivePreview(project, index));
-    image.classList.add("has-3d-scene");
-  }
-
-  if(img){
-    img.src = project.image;
-    img.alt = `${project.name} website preview`;
-    img.loading = index < 2 ? "eager" : "lazy";
-    img.style.display = "none";
-  }
-
-  const hostname = (() => {
-    try { return new URL(project.url).hostname.replace(/^www\./, ""); }
-    catch { return project.url; }
-  })();
-  const browserLabel = card.querySelector(".browser-bar small");
-  if(browserLabel) browserLabel.textContent = hostname;
-
-  card.querySelectorAll(".live-preview").forEach(button => button.remove());
-
-  const info = card.querySelector(".work-info");
-  if(info){
-    let topline = info.querySelector(".project-topline");
-    if(!topline){
-      const label = info.querySelector("span");
-      topline = document.createElement("div");
-      topline.className = "project-topline";
-      if(label) topline.appendChild(label);
-      info.prepend(topline);
-    }
-
-    const label = topline.querySelector("span");
-    if(label) label.textContent = `${String(index + 1).padStart(2, "0")} · ${project.category}`;
-
-    let link = topline.querySelector(".project-link");
-    if(!link){
-      link = document.createElement("a");
-      link.className = "project-link";
-      topline.appendChild(link);
-    }
-    link.href = project.url;
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-    link.textContent = "ENTER WEBSITE ↗";
-    link.setAttribute("aria-label", `Enter ${project.name} website`);
-
-    const title = info.querySelector("h3");
-    if(title) title.textContent = project.name;
-    info.querySelectorAll("p").forEach(description => description.remove());
-  }
-
-  let number = card.querySelector(".work-number");
-  if(!number){
-    number = document.createElement("span");
-    number.className = "work-number";
-    card.querySelector(".browser-frame")?.appendChild(number);
-  }
-  number.textContent = String(index + 1).padStart(2, "0");
-
-  return card;
-}
-
-function buildWorkLayout(){
-  const grid = document.querySelector(".work-grid");
-  if(!grid) return;
-
-  const cardsByName = new Map(
-    [...grid.querySelectorAll(".work-card")].map(card => [
-      card.querySelector("h3")?.textContent?.trim(),
-      card
-    ])
-  );
-
-  grid.innerHTML = "";
-  PROJECTS.forEach((project, index) => {
-    const card = cardsByName.get(project.name) || [...cardsByName.entries()].find(([name]) =>
-      name?.toLowerCase() === project.name.toLowerCase()
-    )?.[1];
-    if(card) grid.appendChild(normalizeProject(card, project, index));
-  });
-
-  document.querySelectorAll(".archive-heading, .archive-grid").forEach(node => node.remove());
-}
-
-function closePreview(){
-  if(!previewModal) return;
-  previewModal.classList.remove("is-open");
-  previewModal.setAttribute("aria-hidden", "true");
-  document.body.style.overflow = "";
-}
-
-langBtn?.addEventListener("click", () => setLang(getLang() === "en" ? "ar" : "en"));
-previewClose?.addEventListener("click", closePreview);
-previewModal?.querySelector("[data-close-preview]")?.addEventListener("click", closePreview);
-document.addEventListener("keydown", event => {
-  if(event.key === "Escape" && previewModal?.classList.contains("is-open")) closePreview();
-});
-
-load3DStyles();
-createGlobal3D();
-buildWorkLayout();
-setLang(getLang());
-
-document.addEventListener("click", event => {
-  const target = event.target.closest("a, button");
-  if(!target) return;
-  if(target.matches(".project-link, .live-preview-overlay a, .live-preview-unavailable a")) return;
-
-  event.preventDefault();
-  event.stopImmediatePropagation();
-
-  const label = (target.textContent || target.getAttribute("aria-label") || "").trim().replace(/\s+/g, " ");
-  const message = label ? `Hello Ahmed, I clicked "${label}" on your portfolio and would like to discuss a project.` : "Hello Ahmed, I would like to discuss a project.";
-  const url = `${WHATSAPP_URL}?text=${encodeURIComponent(message)}`;
-  window.open(url, "_blank", "noopener,noreferrer");
-}, true);
+function createGlobal3D(){if(document.querySelector(".global-3d-world"))return;const world=document.createElement("div");world.className="global-3d-world";world.setAttribute("aria-hidden","true");world.innerHTML=`<div class="global-grid"></div><div class="global-orb global-orb-a"></div><div class="global-orb global-orb-b"></div><div class="global-ring global-ring-a"></div><div class="global-ring global-ring-b"></div><div class="global-cube global-cube-a"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="global-cube global-cube-b"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="global-wire global-wire-a"></div><div class="global-wire global-wire-b"></div>`;document.body.prepend(world);}
+function create3DScene(theme,index){const scene=document.createElement("div");scene.className=`project-3d-scene theme-${theme}`;scene.setAttribute("aria-hidden","true");const core=document.createElement("div");core.className="scene-core";scene.appendChild(core);const orbit=document.createElement("div");orbit.className="scene-orbit";const dot=document.createElement("i");dot.className="scene-dot";orbit.appendChild(dot);scene.appendChild(orbit);const ring=document.createElement("div");ring.className="scene-ring";scene.appendChild(ring);const cube=document.createElement("div");cube.className="scene-cube";cube.innerHTML="<span></span><span></span><span></span><span></span><span></span><span></span>";scene.appendChild(cube);const label=document.createElement("div");label.className="scene-label";label.textContent=String(index+1).padStart(2,"0");scene.appendChild(label);return scene;}
+function createLivePreview(project,index){const wrap=document.createElement("div");wrap.className="live-preview-wrap preview-live";wrap.setAttribute("aria-label",`${project.name} live website preview`);const snapshot=document.createElement("img");snapshot.className="live-site-snapshot";snapshot.alt=`${project.name} current website preview`;snapshot.loading=index<3?"eager":"lazy";snapshot.decoding="async";snapshot.referrerPolicy="no-referrer";snapshot.src=`https://s.wordpress.com/mshots/v1/${encodeURIComponent(project.url)}?w=1400`;const overlay=document.createElement("div");overlay.className="live-preview-overlay";overlay.innerHTML=`<span>LIVE WEBSITE SNAPSHOT</span><a href="${project.url}" target="_blank" rel="noopener noreferrer">OPEN WEBSITE ↗</a>`;const fallback=document.createElement("div");fallback.className="live-preview-unavailable";fallback.innerHTML=`<strong>${project.name}</strong><span>Preview image unavailable. The original website is still available.</span><a href="${project.url}" target="_blank" rel="noopener noreferrer">OPEN LIVE WEBSITE ↗</a>`;snapshot.addEventListener("load",()=>wrap.classList.add("preview-loaded"),{once:true});snapshot.addEventListener("error",()=>wrap.classList.add("preview-unavailable"),{once:true});wrap.appendChild(snapshot);wrap.appendChild(overlay);wrap.appendChild(fallback);return wrap;}
+function normalizeProject(card,project,index){card.dataset.category=project.category;card.dataset.liveUrl=project.url;card.dataset.theme=project.theme;card.classList.remove("work-card-large","featured-project");card.classList.add("work-card-unified");card.style.gridColumn="auto";const image=card.querySelector(".work-image"),img=image?.querySelector("img");image?.querySelectorAll("iframe.live-site-frame, iframe.live-site-embed, img.live-site-snapshot, .live-preview-wrap, .project-3d-scene").forEach(node=>node.remove());if(image){image.prepend(create3DScene(project.theme,index));image.appendChild(createLivePreview(project,index));image.classList.add("has-3d-scene");}if(img){img.src=project.image;img.alt=`${project.name} website preview`;img.loading=index<2?"eager":"lazy";img.style.display="none";}const hostname=(()=>{try{return new URL(project.url).hostname.replace(/^www\./,"");}catch{return project.url;}})();const browserLabel=card.querySelector(".browser-bar small");if(browserLabel)browserLabel.textContent=hostname;card.querySelectorAll(".live-preview").forEach(button=>button.remove());const info=card.querySelector(".work-info");if(info){let topline=info.querySelector(".project-topline");if(!topline){const label=info.querySelector("span");topline=document.createElement("div");topline.className="project-topline";if(label)topline.appendChild(label);info.prepend(topline);}const label=topline.querySelector("span");if(label)label.textContent=`${String(index+1).padStart(2,"0")} · ${project.category}`;let link=topline.querySelector(".project-link");if(!link){link=document.createElement("a");link.className="project-link";topline.appendChild(link);}link.href=project.url;link.target="_blank";link.rel="noopener noreferrer";link.textContent="ENTER WEBSITE ↗";link.setAttribute("aria-label",`Enter ${project.name} website`);const title=info.querySelector("h3");if(title)title.textContent=project.name;info.querySelectorAll("p").forEach(description=>description.remove());}let number=card.querySelector(".work-number");if(!number){number=document.createElement("span");number.className="work-number";card.querySelector(".browser-frame")?.appendChild(number);}number.textContent=String(index+1).padStart(2,"0");return card;}
+function buildWorkLayout(){const grid=document.querySelector(".work-grid");if(!grid)return;const cardsByName=new Map([...grid.querySelectorAll(".work-card")].map(card=>[card.querySelector("h3")?.textContent?.trim(),card]));grid.innerHTML="";PROJECTS.forEach((project,index)=>{const card=cardsByName.get(project.name)||[...cardsByName.entries()].find(([name])=>name?.toLowerCase()===project.name.toLowerCase())?.[1];if(card)grid.appendChild(normalizeProject(card,project,index));});document.querySelectorAll(".archive-heading,.archive-grid").forEach(node=>node.remove());}
+function closePreview(){if(!previewModal)return;previewModal.classList.remove("is-open");previewModal.setAttribute("aria-hidden","true");document.body.style.overflow="";}
+langBtn?.addEventListener("click",()=>setLang(getLang()==="en"?"ar":"en"));previewClose?.addEventListener("click",closePreview);previewModal?.querySelector("[data-close-preview]")?.addEventListener("click",closePreview);document.addEventListener("keydown",event=>{if(event.key==="Escape"&&previewModal?.classList.contains("is-open"))closePreview();});
+load3DStyles();createGlobal3D();buildWorkLayout();setLang(getLang());
+document.addEventListener("click",event=>{const target=event.target.closest("a,button");if(!target)return;if(target.matches(".project-link,.live-preview-overlay a,.live-preview-unavailable a"))return;event.preventDefault();event.stopImmediatePropagation();const label=(target.textContent||target.getAttribute("aria-label")||"").trim().replace(/\s+/g," ");const message=label?`Hello Ahmed, I clicked "${label}" on your portfolio and would like to discuss a project.`:"Hello Ahmed, I would like to discuss a project.";window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(message)}`,"_blank","noopener,noreferrer");},true);
