@@ -1,0 +1,35 @@
+name: Validate bilingual portfolio
+
+on:
+  push:
+    branches: ["main", "feat/complete-bilingual-i18n"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check JavaScript syntax
+        run: |
+          node --check script.js
+          node --check growth.js
+          node --check i18n.js
+          node --check i18n-reload.js
+      - name: Check required localization files
+        run: |
+          test -f index.html
+          test -f i18n.js
+          test -f i18n-reload.js
+          grep -q 'lang="en"' index.html
+          grep -q 'hreflang="ar"' index.html
+          grep -q 'document.documentElement.dir' i18n.js
+      - name: Check for obsolete i18n shims
+        run: |
+          test ! -f arabic-full.js
+          test ! -f i18n-enhancements.js
+          test ! -f .github/workflows/apply-arabic-i18n.yml
