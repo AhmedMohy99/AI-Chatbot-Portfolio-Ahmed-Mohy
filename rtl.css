@@ -17,14 +17,4 @@ html[dir="rtl"] .ai-actions,html[dir="rtl"] .ai-playground,html[dir="rtl"] .ai-w
 html[dir="rtl"] .ai-chat-form{direction:rtl}
 html[dir="rtl"] .ai-chat-form input{text-align:right}
 html[dir="rtl"] .wa-body{direction:rtl}
-html[dir="rtl"] .footer{text-align:center}
-html[dir="rtl"] .preview-header{direction:rtl}
-html[dir="rtl"] .preview-actions{direction:rtl}
-html[dir="rtl"] .preview-browser .browser-bar{direction:ltr}
-html[dir="rtl"] .ai-primary,html[dir="rtl"] .ai-secondary,html[dir="rtl"] .case-link,html[dir="rtl"] .price-cta{direction:rtl}
-html[dir="rtl"] .price span{margin-right:0;margin-left:4px}
-html[dir="rtl"] .section-heading,html[dir="rtl"] .hero-card,html[dir="rtl"] .contact-card{flex-direction:row-reverse}
-html[dir="rtl"] .hero-card>div:first-child,html[dir="rtl"] .section-heading>div,html[dir="rtl"] .contact-card>div:first-child{min-width:0}
-html[dir="rtl"] .work-info p,html[dir="rtl"] .price-card p,html[dir="rtl"] .pricing-note,html[dir="rtl"] .process-grid span{overflow-wrap:anywhere}
-html[dir="rtl"] a,html[dir="rtl"] button{font-family:inherit}
 @media(max-width:900px){html[dir="rtl"] .hero-card,html[dir="rtl"] .section-heading,html[dir="rtl"] .contact-card{flex-direction:column;align-items:stretch}}
