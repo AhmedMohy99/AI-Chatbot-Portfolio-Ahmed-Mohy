@@ -82,4 +82,7 @@
   document.querySelectorAll('[data-ai-lang]').forEach(b=>b.addEventListener('click',()=>{localStorage.setItem('lang',b.dataset.aiLang);syncLang();}));
   document.getElementById('langBtn')?.addEventListener('click',()=>setTimeout(syncLang,20));
   syncLang();
+
+  const loadScript = (src) => new Promise((resolve, reject) => { const s=document.createElement('script'); s.src=src; s.async=false; s.onload=resolve; s.onerror=reject; document.head.appendChild(s); });
+  loadScript('closebot-config.js').then(()=>loadScript('integrations.js')).catch((error)=>console.warn('Production integration loader skipped:', error));
 })();
